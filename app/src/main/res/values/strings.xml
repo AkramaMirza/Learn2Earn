@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Learn 2 Earn</string>
+    <string name="authenticating">Authenticating…</string>
 </resources>
