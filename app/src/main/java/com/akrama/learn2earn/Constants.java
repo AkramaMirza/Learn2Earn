@@ -10,4 +10,6 @@ public class Constants {
     public static final String ROLE_TEACHER = "teacher";
 
     public static final String COLLECTION_USERS = "users";
+
+    public static final String FIELD_ROLE = "role";
 }

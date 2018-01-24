@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Learn 2 Earn</string>
     <string name="authenticating">Authenticating…</string>
+    <string name="auth_fail">Authentication failed, please try again</string>
 </resources>
