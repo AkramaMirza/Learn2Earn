@@ -2,7 +2,6 @@ package com.akrama.learn2earn;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,9 +9,10 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static final int RC_SIGN_IN = 1;
+    private static final int RC_CHOOSE_ROLE = 2;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -22,13 +22,21 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            // User is logged in, check if they are student, parent, or teacher
-            FirebaseUtility.getUserDocumentReference(user.getUid()).get()
+            // User is logged in
+            FirebaseUtils.getUserDocumentReference(user.getUid()).get()
                     .addOnSuccessListener(documentSnapshot -> {
-                        String role = documentSnapshot.getString(Constants.FIELD_ROLE);
-                        launchHomeScreen(role);
+                        if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ROLE)) {
+                            launchChooseRoleScreen();
+                        } else {
+                            launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
+                        }
+
                     })
-                    .addOnFailureListener(e -> Log.e(TAG, e.toString()));
+                    .addOnFailureListener(e -> {
+                        // TODO: Handle error
+                        Log.e(TAG, e.toString());
+                        finish();
+                    });
         } else {
             // Show Sign-in/Sign-up screen
             startActivityForResult(AuthUI.getInstance()
@@ -39,13 +47,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                // Created account successfully, now show a screen to ask which role they want
+        switch (requestCode) {
+            case RC_SIGN_IN:
+                if (resultCode == RESULT_OK) {
+                    // Signed in successfully, now show a screen to ask which role they want
+                    // if it is a new account
+                    FirebaseUtils.getCurrentUserDocumentReference().get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ROLE)) {
+                                    launchChooseRoleScreen();
+                                } else {
+                                    launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
+                                }
+                            });
+                } else {
+                    // TODO: Restart MainActivity
+                    Toast.makeText(this, R.string.auth_fail, Toast.LENGTH_LONG).show();
+                }
+                break;
 
-            } else {
-                Toast.makeText(this, R.string.auth_fail, Toast.LENGTH_LONG).show();
-            }
+            case RC_CHOOSE_ROLE:
+                FirebaseUtils.getCurrentUserDocumentReference().get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
+                        });
+                break;
+            default: break;
         }
     }
 
@@ -62,5 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "You are a student!", Toast.LENGTH_LONG).show();
                 break;
         }
+        finish();
+    }
+
+    private void launchChooseRoleScreen() {
+        Intent intent = new Intent(this, ChooseAccountRoleActivity.class);
+        startActivityForResult(intent, RC_CHOOSE_ROLE);
     }
 }

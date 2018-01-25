@@ -2,4 +2,9 @@
     <string name="app_name">Learn 2 Earn</string>
     <string name="authenticating">Authenticating…</string>
     <string name="auth_fail">Authentication failed, please try again</string>
+    <string name="choose_role_student">Student</string>
+    <string name="choose_role_parent">Parent</string>
+    <string name="choose_role_teacher">Teacher</string>
+    <string name="choose_role_title">Are you a student, a parent, or a teacher?</string>
+    <string name="choose_role_next">Next</string>
 </resources>
