@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:text="@string/home_active_bets_toolbar_title"
+            android:textColor="?android:textColorPrimaryInverse"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            />
+
+        <Button
+            android:id="@+id/create_bet_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="right"
+            android:foreground="@drawable/ic_add_white"
+            android:layout_marginRight="5dp"
+            android:enabled="false"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            />
+
+    </FrameLayout>
+
+</android.support.v7.widget.Toolbar>

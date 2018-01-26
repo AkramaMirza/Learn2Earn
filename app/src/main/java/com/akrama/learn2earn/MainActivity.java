@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class MainActivity extends BaseActivity {
 
@@ -24,14 +25,7 @@ public class MainActivity extends BaseActivity {
         if (user != null) {
             // User is logged in
             FirebaseUtils.getUserDocumentReference(user.getUid()).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ROLE)) {
-                            launchChooseRoleScreen();
-                        } else {
-                            launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
-                        }
-
-                    })
+                    .addOnSuccessListener(this::onUserAuthenticated)
                     .addOnFailureListener(e -> {
                         // TODO: Handle error
                         Log.e(TAG, e.toString());
@@ -53,13 +47,7 @@ public class MainActivity extends BaseActivity {
                     // Signed in successfully, now show a screen to ask which role they want
                     // if it is a new account
                     FirebaseUtils.getCurrentUserDocumentReference().get()
-                            .addOnSuccessListener(documentSnapshot -> {
-                                if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ROLE)) {
-                                    launchChooseRoleScreen();
-                                } else {
-                                    launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
-                                }
-                            });
+                            .addOnSuccessListener(this::onUserAuthenticated);
                 } else {
                     // TODO: Restart MainActivity
                     Toast.makeText(this, R.string.auth_fail, Toast.LENGTH_LONG).show();
@@ -68,11 +56,18 @@ public class MainActivity extends BaseActivity {
 
             case RC_CHOOSE_ROLE:
                 FirebaseUtils.getCurrentUserDocumentReference().get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
-                        });
+                        .addOnSuccessListener(documentSnapshot ->
+                                launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE)));
                 break;
             default: break;
+        }
+    }
+
+    private void onUserAuthenticated(DocumentSnapshot documentSnapshot) {
+        if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ROLE)) {
+            launchChooseRoleScreen();
+        } else {
+            launchHomeScreen(documentSnapshot.getString(Constants.FIELD_ROLE));
         }
     }
 
@@ -89,6 +84,8 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(this, "You are a student!", Toast.LENGTH_LONG).show();
                 break;
         }
+        Intent intent = new Intent(this, StudentHomeActivity.class);
+        startActivity(intent);
         finish();
     }
 
