@@ -3,6 +3,8 @@ package com.akrama.learn2earn;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
@@ -15,6 +17,7 @@ import butterknife.OnClick;
 
 public class StudentHomeActivity extends BaseActivity implements StudentHomeView {
 
+    @BindView(R.id.active_bets_list_view) RecyclerView mActiveBetsRecyclerView;
     @BindView(R.id.no_parent_view) View mNoParentView;
     @BindView(R.id.no_bets_view) View mNoBetsView;
     @BindView(R.id.active_bets_progress_bar) View mActiveBetsProgessBar;
@@ -22,12 +25,16 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @BindView(R.id.create_bet_btn) View mCreateBetButton;
 
     private StudentHomePresenter mPresenter;
+    private ActiveBetAdapter mActiveBetAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
         ButterKnife.bind(this);
+        mActiveBetAdapter = new ActiveBetAdapter(this);
+        mActiveBetsRecyclerView.setAdapter(mActiveBetAdapter);
+        mActiveBetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPresenter = new StudentHomePresenter(this);
         mPresenter.onCreate();
     }
@@ -60,7 +67,8 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     public void showCreateBetDialog(List<Assignment> assignments) {
         View createBetDialog = LayoutInflater.from(this).inflate(R.layout.create_bet_dialog, null);
         Spinner assignmentSpinner = createBetDialog.findViewById(R.id.create_bet_assignment_spinner);
-        TextInputEditText valueEditText = createBetDialog.findViewById(R.id.add_parent_edit_text);
+        TextInputEditText valueEditText = createBetDialog.findViewById(R.id.bet_value_edit_text);
+        TextInputEditText gradeEditText = createBetDialog.findViewById(R.id.bet_grade_edit_text);
 
         AssignmentAdapter adapter = new AssignmentAdapter(this);
         adapter.addAll(assignments);
@@ -71,9 +79,10 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
                 .setTitle(getString(R.string.home_create_bet))
                 .setView(createBetDialog)
                 .setPositiveButton(getString(R.string.create_bet_create), (dialogInterface, i) -> {
-                    float value = Float.valueOf(valueEditText.getText().toString());
+                    String grade = gradeEditText.getText().toString();
+                    String value = valueEditText.getText().toString();
                     String assignmentUid = ((Assignment) assignmentSpinner.getSelectedItem()).getUid();
-                    mPresenter.onCreateBetSubmitted(assignmentUid, value);
+                    mPresenter.onCreateBetSubmitted(assignmentUid, value, grade);
                 })
                 .create()
                 .show();
@@ -85,6 +94,17 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
                 .setTitle(getString(R.string.student_home_add_classroom))
                 .create()
                 .show();
+    }
+
+    @Override
+    public void showActiveBets(List<CompressedBet> bets) {
+        mActiveBetAdapter.setBets(bets);
+        mActiveBetsRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideActiveBets() {
+        mActiveBetsRecyclerView.setVisibility(View.GONE);
     }
 
     @Override

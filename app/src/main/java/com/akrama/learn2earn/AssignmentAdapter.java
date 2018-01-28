@@ -47,7 +47,7 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.assignments_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.assignments_drop_down_list_item, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

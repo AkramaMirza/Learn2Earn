@@ -38,7 +38,7 @@ public class StudentHomePresenter {
             } else {
                 mView.hideProgressBar();
                 mView.enableCreateBetButton();
-                // Show the active bets
+                mView.showActiveBets(convertMapListToCompressedBetList(activeBets));
             }
         });
     }
@@ -83,16 +83,16 @@ public class StudentHomePresenter {
         });
     }
 
-    public void onCreateBetSubmitted(String assignmentUid, float value) {
+    public void onCreateBetSubmitted(String assignmentUid, String value, String grade) {
         mView.showFullScreenProgressBar();
-        mInteractor.createBet(assignmentUid, value, success -> mView.hideFullScreenProgressBar());
+        mInteractor.createBet(assignmentUid, value, grade, success -> mView.hideFullScreenProgressBar());
     }
 
     private void hideAllViewsExceptProgressBar() {
         mView.showProgressBar();
         mView.hideNoBetsView();
         mView.hideNoParentView();
-        // TODO: mView.hideBetsList()
+        mView.hideActiveBets();
     }
 
     private List<Assignment> convertMapListToAssignmentList(List<Map> mapList) {
@@ -103,5 +103,13 @@ public class StudentHomePresenter {
             assignments.add(new Assignment(name, uid));
         }
         return assignments;
+    }
+
+    private List<CompressedBet> convertMapListToCompressedBetList(List<Map> mapList) {
+        List<CompressedBet> compressedBets = new ArrayList<>();
+        for (Map map : mapList) {
+            compressedBets.add(CompressedBet.fromMap(map));
+        }
+        return compressedBets;
     }
 }

@@ -53,7 +53,7 @@ public class StudentHomeInteractor {
     }
 
     // TODO: Move to cloud function
-    public void createBet(String assignmentUid, float value, Consumer<Boolean> listener) {
+    public void createBet(String assignmentUid, String value, String grade, Consumer<Boolean> listener) {
         final String studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(currentUserDocument -> {
@@ -62,27 +62,27 @@ public class StudentHomeInteractor {
             FirebaseUtils.getAssignmentWithUid(assignmentUid).get().addOnSuccessListener(assignmentDocument -> {
                 final String teacherUid = assignmentDocument.getString(Constants.FIELD_TEACHER_UID);
                 final String assignmentName = assignmentDocument.getString(Constants.FIELD_ASSIGNMENT_NAME);
-                Bet bet = new Bet(studentUid, parentUid, teacherUid, assignmentUid, value);
+                Bet bet = new Bet(studentUid, parentUid, teacherUid, assignmentUid, value, grade);
 
                 FirebaseUtils.getBetsCollection().add(bet).addOnSuccessListener(betDocument -> {
                     String betUid = betDocument.getId();
-                    addBetToUser(studentUid, assignmentName, betUid, value, listener);
-                    addBetToUser(parentUid, assignmentName, betUid, value, aVoid -> {});
+                    CompressedBet compressedBet = new CompressedBet(assignmentName, betUid, value, grade);
+                    addBetToUser(studentUid, compressedBet, listener);
+                    addBetToUser(parentUid, compressedBet, aVoid -> {});
                 });
             });
         });
     }
 
-    private void addBetToUser(String userUid, String assignmentName, String betUid, float value, Consumer<Boolean> listener) {
-        Map betMap = Bet.toMap(assignmentName, betUid, value);
+    private void addBetToUser(String userUid, CompressedBet compressedBet, Consumer<Boolean> listener) {
         FirebaseUtils.getUsersActiveBets(userUid).get().addOnSuccessListener(documentSnapshot -> {
-            List<Map> activeBets;
+            List activeBets;
             if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ACTIVE_BETS)) {
                 activeBets = new ArrayList<>();
             } else {
-                activeBets = (List<Map>) documentSnapshot.get(Constants.FIELD_ACTIVE_BETS);
+                activeBets = (List) documentSnapshot.get(Constants.FIELD_ACTIVE_BETS);
             }
-            activeBets.add(betMap);
+            activeBets.add(compressedBet);
             Map<String, List<Map>> data = new HashMap<>();
             data.put(Constants.FIELD_ACTIVE_BETS, activeBets);
             FirebaseUtils.getUsersActiveBets(userUid).set(data).addOnSuccessListener(aVoid -> listener.accept(true));

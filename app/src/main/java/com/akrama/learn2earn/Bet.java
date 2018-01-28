@@ -1,5 +1,7 @@
 package com.akrama.learn2earn;
 
+import com.google.firebase.firestore.PropertyName;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,45 +11,50 @@ import java.util.Map;
 
 public class Bet {
 
-    private String student_uid;
-    private String parent_uid;
-    private String teacher_uid;
-    private String assignment_uid;
-    private float bet_value;
+    private String studentUid;
+    private String parentUid;
+    private String teacherUid;
+    private String assignmentUid;
+    private String betValue;
+    private String betGrade;
 
-    public Bet(String student_uid, String parent_uid, String teacher_uid, String assignment_uid, float bet_value) {
-        this.student_uid = student_uid;
-        this.parent_uid = parent_uid;
-        this.teacher_uid = teacher_uid;
-        this.assignment_uid = assignment_uid;
-        this.bet_value = bet_value;
+    public Bet(String studentUid, String parentUid, String teacherUid, String assignmentUid,
+               String betValue, String betGrade) {
+        this.studentUid = studentUid;
+        this.parentUid = parentUid;
+        this.teacherUid = teacherUid;
+        this.assignmentUid = assignmentUid;
+        this.betValue = betValue;
+        this.betGrade = betGrade;
     }
 
+    @PropertyName(Constants.FIELD_STUDENT_UID)
     public String getStudentUid() {
-        return student_uid;
+        return studentUid;
     }
 
+    @PropertyName(Constants.FIELD_PARENT_UID)
     public String getParentUid() {
-        return parent_uid;
+        return parentUid;
     }
 
+    @PropertyName(Constants.FIELD_TEACHER_UID)
     public String getTeacherUid() {
-        return teacher_uid;
+        return teacherUid;
     }
 
+    @PropertyName(Constants.FIELD_ASSIGNMENT_UID)
     public String getAssignmentUid() {
-        return assignment_uid;
+        return assignmentUid;
     }
 
-    public float getBetValue() {
-        return bet_value;
+    @PropertyName(Constants.FIELD_BET_VALUE)
+    public String getBetValue() {
+        return betValue;
     }
 
-    public static Map toMap(String assignmentName, String betUid, float value) {
-        Map map = new HashMap();
-        map.put(Constants.FIELD_ASSIGNMENT_NAME, assignmentName);
-        map.put(Constants.FIELD_BET_UID, betUid);
-        map.put(Constants.FIELD_BET_VALUE, value);
-        return map;
+    @PropertyName(Constants.FIELD_BET_GRADE)
+    public String getBetGrade() {
+        return betGrade;
     }
 }
