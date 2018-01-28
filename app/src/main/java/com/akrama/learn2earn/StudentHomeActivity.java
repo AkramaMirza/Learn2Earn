@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Spinner;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,9 +57,24 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     }
 
     @Override
-    public void showCreateBetDialog() {
+    public void showCreateBetDialog(List<Assignment> assignments) {
+        View createBetDialog = LayoutInflater.from(this).inflate(R.layout.create_bet_dialog, null);
+        Spinner assignmentSpinner = createBetDialog.findViewById(R.id.create_bet_assignment_spinner);
+        TextInputEditText valueEditText = createBetDialog.findViewById(R.id.add_parent_edit_text);
+
+        AssignmentAdapter adapter = new AssignmentAdapter(this);
+        adapter.addAll(assignments);
+        assignmentSpinner.setAdapter(adapter);
+
+
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.home_create_bet))
+                .setView(createBetDialog)
+                .setPositiveButton(getString(R.string.create_bet_create), (dialogInterface, i) -> {
+                    float value = Float.valueOf(valueEditText.getText().toString());
+                    String assignmentUid = ((Assignment) assignmentSpinner.getSelectedItem()).getUid();
+                    mPresenter.onCreateBetSubmitted(assignmentUid, value);
+                })
                 .create()
                 .show();
     }
@@ -68,7 +86,6 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
                 .create()
                 .show();
     }
-
 
     @Override
     public void showNoParentView() {
@@ -113,5 +130,10 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @Override
     public void enableCreateBetButton() {
         mCreateBetButton.setEnabled(true);
+    }
+
+    @Override
+    public void disableCreateBetButton() {
+        mCreateBetButton.setEnabled(false);
     }
 }

@@ -1,6 +1,8 @@
 package com.akrama.learn2earn;
 
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by akrama on 25/01/18.
@@ -18,6 +20,7 @@ public class StudentHomePresenter {
 
     public void onCreate() {
         mInteractor.requestActiveBets(activeBets -> {
+            hideAllViewsExceptProgressBar();
             if (activeBets == null || activeBets.isEmpty()) {
                 // No active bets were found, check if the user has connected with a parent
                 mInteractor.requestParentStatus(hasParent -> {
@@ -29,6 +32,7 @@ public class StudentHomePresenter {
                     } else {
                         // The student has to connect with a parent
                         mView.showNoParentView();
+                        mView.disableCreateBetButton();
                     }
                 });
             } else {
@@ -45,14 +49,24 @@ public class StudentHomePresenter {
 
     public void onCreateBetClicked() {
         mView.showFullScreenProgressBar();
-        mInteractor.requestClassroomStatus(hasClassroom -> {
-            if (hasClassroom) {
-                mView.showCreateBetDialog();
+        mInteractor.requestAssignments(assignments -> {
+            if (assignments == null || assignments.isEmpty()) {
+                // User has no assignments, check if they have joined a classroom
+                mInteractor.requestClassroomStatus(hasClassroom -> {
+                    mView.hideFullScreenProgressBar();
+                    if (hasClassroom) {
+                        // TODO: inform the user that there are no assignments to bet on
+                    } else {
+                        // TODO: mView.showAddClassroomDialog();
+                    }
+                    mView.hideFullScreenProgressBar();
+                });
             } else {
-                mView.showAddClassroomDialog();
+                mView.hideFullScreenProgressBar();
+                mView.showCreateBetDialog(convertMapListToAssignmentList(assignments));
             }
-            mView.hideFullScreenProgressBar();
         });
+
     }
 
     public void onAddParentSubmitted(String email){
@@ -67,5 +81,27 @@ public class StudentHomePresenter {
                 // TODO: inform the user that the parent was not added
             }
         });
+    }
+
+    public void onCreateBetSubmitted(String assignmentUid, float value) {
+        mView.showFullScreenProgressBar();
+        mInteractor.createBet(assignmentUid, value, success -> mView.hideFullScreenProgressBar());
+    }
+
+    private void hideAllViewsExceptProgressBar() {
+        mView.showProgressBar();
+        mView.hideNoBetsView();
+        mView.hideNoParentView();
+        // TODO: mView.hideBetsList()
+    }
+
+    private List<Assignment> convertMapListToAssignmentList(List<Map> mapList) {
+        List<Assignment> assignments = new ArrayList<>();
+        for (Map map : mapList) {
+            String name = (String) map.get(Constants.FIELD_ASSIGNMENT_NAME);
+            String uid = (String) map.get(Constants.FIELD_ASSIGNMENT_UID);
+            assignments.add(new Assignment(name, uid));
+        }
+        return assignments;
     }
 }

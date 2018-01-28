@@ -1,6 +1,7 @@
 package com.akrama.learn2earn;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -29,8 +30,28 @@ public class FirebaseUtils {
 
     public static DocumentReference getCurrentUsersActiveBets() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return getUsersActiveBets(uid);
+    }
+
+    public static DocumentReference getUsersActiveBets(String userUid) {
         return FirebaseFirestore.getInstance()
                 .collection(Constants.COLLECTION_USERS_TO_BETS)
+                .document(userUid);
+    }
+
+    public static DocumentReference getCurrentUsersAssignments() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return FirebaseFirestore.getInstance()
+                .collection(Constants.COLLECTION_USERS_TO_ASSIGNMENTS)
                 .document(uid);
+    }
+
+    public static DocumentReference getAssignmentWithUid(String uid) {
+        return FirebaseFirestore.getInstance().collection(Constants.COLLECTION_ASSIGNMENTS)
+                .document(uid);
+    }
+
+    public static CollectionReference getBetsCollection() {
+        return FirebaseFirestore.getInstance().collection(Constants.COLLECTION_BETS);
     }
 }

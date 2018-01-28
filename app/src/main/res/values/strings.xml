@@ -21,4 +21,6 @@
 
     <string name="add_parent_description">Please enter your parent\'s email address</string>
     <string name="add_parent_submit">Submit</string>
+
+    <string name="create_bet_create">Create</string>
 </resources>

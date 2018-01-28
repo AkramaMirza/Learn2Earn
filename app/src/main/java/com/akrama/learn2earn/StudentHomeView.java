@@ -1,12 +1,14 @@
 package com.akrama.learn2earn;
 
+import java.util.List;
+
 /**
  * Created by akrama on 25/01/18.
  */
 
 public interface StudentHomeView {
     void showAddParentDialog();
-    void showCreateBetDialog();
+    void showCreateBetDialog(List<Assignment> assignments);
     void showAddClassroomDialog();
     void showNoParentView();
     void hideNoParentView();
@@ -17,4 +19,5 @@ public interface StudentHomeView {
     void showNoBetsView();
     void hideNoBetsView();
     void enableCreateBetButton();
+    void disableCreateBetButton();
 }

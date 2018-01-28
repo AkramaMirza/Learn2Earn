@@ -2,9 +2,15 @@ package com.akrama.learn2earn;
 
 import android.text.TextUtils;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +52,45 @@ public class StudentHomeInteractor {
                 .set(data, SetOptions.merge());
     }
 
+    // TODO: Move to cloud function
+    public void createBet(String assignmentUid, float value, Consumer<Boolean> listener) {
+        final String studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(currentUserDocument -> {
+            final String parentUid = currentUserDocument.getString(Constants.FIELD_PARENT_UID);
+
+            FirebaseUtils.getAssignmentWithUid(assignmentUid).get().addOnSuccessListener(assignmentDocument -> {
+                final String teacherUid = assignmentDocument.getString(Constants.FIELD_TEACHER_UID);
+                final String assignmentName = assignmentDocument.getString(Constants.FIELD_ASSIGNMENT_NAME);
+                Bet bet = new Bet(studentUid, parentUid, teacherUid, assignmentUid, value);
+
+                FirebaseUtils.getBetsCollection().add(bet).addOnSuccessListener(betDocument -> {
+                    String betUid = betDocument.getId();
+                    addBetToUser(studentUid, assignmentName, betUid, value, listener);
+                    addBetToUser(parentUid, assignmentName, betUid, value, aVoid -> {});
+                });
+            });
+        });
+    }
+
+    private void addBetToUser(String userUid, String assignmentName, String betUid, float value, Consumer<Boolean> listener) {
+        Map betMap = Bet.toMap(assignmentName, betUid, value);
+        FirebaseUtils.getUsersActiveBets(userUid).get().addOnSuccessListener(documentSnapshot -> {
+            List<Map> activeBets;
+            if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ACTIVE_BETS)) {
+                activeBets = new ArrayList<>();
+            } else {
+                activeBets = (List<Map>) documentSnapshot.get(Constants.FIELD_ACTIVE_BETS);
+            }
+            activeBets.add(betMap);
+            Map<String, List<Map>> data = new HashMap<>();
+            data.put(Constants.FIELD_ACTIVE_BETS, activeBets);
+            FirebaseUtils.getUsersActiveBets(userUid).set(data).addOnSuccessListener(aVoid -> listener.accept(true));
+        });
+    }
+
     public void requestActiveBets(Consumer<List<Map>> listener) {
-        FirebaseUtils.getCurrentUsersActiveBets().get().addOnSuccessListener(documentSnapshot -> {
+        FirebaseUtils.getCurrentUsersActiveBets().addSnapshotListener((documentSnapshot, e) -> {
             if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ACTIVE_BETS)) {
                 listener.accept(null);
             } else {
@@ -65,6 +108,17 @@ public class StudentHomeInteractor {
             } else {
                 listener.accept(true);
             }
+        });
+    }
+
+    public void requestAssignments(Consumer<List<Map>> listener) {
+        FirebaseUtils.getCurrentUsersAssignments().get().addOnSuccessListener(documentSnapshot -> {
+           if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ASSIGNMENTS)) {
+               listener.accept(null);
+           } else {
+               List<Map> assignments = (List<Map>) documentSnapshot.get(Constants.FIELD_ASSIGNMENTS);
+               listener.accept(assignments);
+           }
         });
     }
 
