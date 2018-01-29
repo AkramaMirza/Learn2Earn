@@ -16,11 +16,14 @@
     <string name="home_assignments_toolbar_title">Assignments</string>
     <string name="home_create_bet">Create Bet</string>
 
-    <string name="student_home_add_classroom">Add Classroom</string>
+    <string name="student_home_add_teacher">Add Teacher</string>
     <string name="student_home_add_parent">Add Parent</string>
 
     <string name="add_parent_description">Please enter your parent\'s email address</string>
     <string name="add_parent_submit">Submit</string>
+
+    <string name="add_teacher_description">Please enter your teacher\'s email address</string>
+    <string name="add_teacher_submit">Submit</string>
 
     <string name="create_bet_create">Create</string>
 </resources>

@@ -52,12 +52,12 @@ public class StudentHomePresenter {
         mInteractor.requestAssignments(assignments -> {
             if (assignments == null || assignments.isEmpty()) {
                 // User has no assignments, check if they have joined a classroom
-                mInteractor.requestClassroomStatus(hasClassroom -> {
+                mInteractor.requestTeacherStatus(hasClassroom -> {
                     mView.hideFullScreenProgressBar();
                     if (hasClassroom) {
                         // TODO: inform the user that there are no assignments to bet on
                     } else {
-                        // TODO: mView.showAddClassroomDialog();
+                        mView.showAddTeacherDialog();
                     }
                     mView.hideFullScreenProgressBar();
                 });
@@ -79,6 +79,19 @@ public class StudentHomePresenter {
                 mView.enableCreateBetButton();
             } else {
                 // TODO: inform the user that the parent was not added
+            }
+        });
+    }
+
+    public void onAddTeacherSubmitted(String email) {
+        mView.showFullScreenProgressBar();
+        mInteractor.addTeacherWithEmail(email, success -> {
+            if (success) {
+                mView.hideFullScreenProgressBar();
+                // TODO: fetch any assignments that the teacher has started
+                onCreateBetClicked();
+            } else {
+                // TODO: inform the user that the teacher was not added
             }
         });
     }

@@ -3,6 +3,7 @@ package com.akrama.learn2earn;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,6 +36,8 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
         mActiveBetAdapter = new ActiveBetAdapter(this);
         mActiveBetsRecyclerView.setAdapter(mActiveBetAdapter);
         mActiveBetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mActiveBetsRecyclerView.addItemDecoration(decoration);
         mPresenter = new StudentHomePresenter(this);
         mPresenter.onCreate();
     }
@@ -89,9 +92,16 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     }
 
     @Override
-    public void showAddClassroomDialog() {
+    public void showAddTeacherDialog() {
+        View addTeacherDialogContent = LayoutInflater.from(this).inflate(R.layout.add_teacher_dialog, null);
+        TextInputEditText emailEditText = addTeacherDialogContent.findViewById(R.id.add_teacher_edit_text);
+
         new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.student_home_add_classroom))
+                .setTitle(getString(R.string.student_home_add_teacher))
+                .setMessage(getString(R.string.add_teacher_description))
+                .setPositiveButton(getString(R.string.add_teacher_submit), (dialogInterface, i) ->
+                        mPresenter.onAddTeacherSubmitted(emailEditText.getText().toString()))
+                .setView(addTeacherDialogContent)
                 .create()
                 .show();
     }

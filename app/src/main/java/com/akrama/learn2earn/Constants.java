@@ -19,7 +19,6 @@ public class Constants {
     public static final String FIELD_EMAIL = "email";
     public static final String FIELD_PARENT_UID = "parent_uid";
     public static final String FIELD_CHILD_UID = "child_uid";
-    public static final String FIELD_CLASSROOM_UID = "classroom_uid";
     public static final String FIELD_ACTIVE_BETS = "active_bets";
     public static final String FIELD_ASSIGNMENTS = "assignments";
     public static final String FIELD_ASSIGNMENT_NAME = "assignment_name";
@@ -29,4 +28,5 @@ public class Constants {
     public static final String FIELD_BET_VALUE = "bet_value";
     public static final String FIELD_BET_GRADE = "bet_grade";
     public static final String FIELD_STUDENT_UID = "student_uid";
+    public static final String FIELD_STUDENTS = "students";
 }

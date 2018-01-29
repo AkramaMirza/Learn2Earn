@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class StudentHomeInteractor {
 
     public void addParentWithEmail(String email, Consumer<Boolean> listener) {
-        FirebaseUtils.getUserDocumentReferenceWithEmail(email).addSnapshotListener((documentSnapshots, e) -> {
+        FirebaseUtils.getUserDocumentReferenceWithEmail(email).get().addOnSuccessListener(documentSnapshots -> {
             if (documentSnapshots.isEmpty()) {
                 listener.accept(false);
             } else {
@@ -50,6 +50,44 @@ public class StudentHomeInteractor {
         data.put(Constants.FIELD_CHILD_UID, childUid);
         FirebaseUtils.getUserDocumentReference(parentUid)
                 .set(data, SetOptions.merge());
+    }
+
+    public void addTeacherWithEmail(String email, Consumer<Boolean> listener) {
+        FirebaseUtils.getUserDocumentReferenceWithEmail(email).get().addOnSuccessListener(documentSnapshots -> {
+            if (documentSnapshots.isEmpty()) {
+                listener.accept(false);
+            } else {
+                String teacherUid = documentSnapshots.getDocuments().get(0).getId();
+                setTeacherUid(teacherUid, listener);
+                setTeachersStudentUid(teacherUid);
+            }
+        });
+    }
+
+    public void setTeacherUid(String teacherUid, Consumer<Boolean> listener) {
+        Map<String, String> data = new HashMap<>();
+        data.put(Constants.FIELD_TEACHER_UID, teacherUid);
+        FirebaseUtils.getCurrentUserDocumentReference()
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> listener.accept(true));
+    }
+
+    public void setTeachersStudentUid(String teacherUid) {
+        String studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUtils.getUserDocumentReference(teacherUid).get().addOnSuccessListener(teacherDocument -> {
+            List<String> students;
+            if (!teacherDocument.contains(Constants.FIELD_STUDENTS)) {
+               students = new ArrayList<>();
+            } else {
+                students = (List<String>) teacherDocument.get(Constants.FIELD_STUDENTS);
+            }
+            if (!students.contains(studentUid)) {
+                students.add(studentUid);
+                Map<String, List<String>> data = new HashMap<>();
+                data.put(Constants.FIELD_STUDENTS, students);
+                FirebaseUtils.getUserDocumentReference(teacherUid).set(data, SetOptions.merge());
+            }
+        });
     }
 
     // TODO: Move to cloud function
@@ -122,10 +160,10 @@ public class StudentHomeInteractor {
         });
     }
 
-    public void requestClassroomStatus(Consumer<Boolean> listener) {
+    public void requestTeacherStatus(Consumer<Boolean> listener) {
         FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(documentSnapshot -> {
-            if (!documentSnapshot.contains(Constants.FIELD_CLASSROOM_UID)
-                    || TextUtils.isEmpty(documentSnapshot.getString(Constants.FIELD_CLASSROOM_UID))) {
+            if (!documentSnapshot.contains(Constants.FIELD_TEACHER_UID)
+                    || TextUtils.isEmpty(documentSnapshot.getString(Constants.FIELD_TEACHER_UID))) {
                 listener.accept(false);
             } else {
                 listener.accept(true);

@@ -9,7 +9,7 @@ import java.util.List;
 public interface StudentHomeView {
     void showAddParentDialog();
     void showCreateBetDialog(List<Assignment> assignments);
-    void showAddClassroomDialog();
+    void showAddTeacherDialog();
     void showNoParentView();
     void hideNoParentView();
     void showProgressBar();
