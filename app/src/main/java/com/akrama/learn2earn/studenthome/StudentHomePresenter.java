@@ -92,7 +92,7 @@ public class StudentHomePresenter {
         mInteractor.addTeacherWithEmail(email, success -> {
             if (success) {
                 mView.hideFullScreenProgressBar();
-                // TODO: fetch any assignments that the teacher has started
+                // TODO: fetch any assignments that the teacher has started and add to current users users_to_assignments table
                 onCreateBetClicked();
             } else {
                 // TODO: inform the user that the teacher was not added

@@ -28,5 +28,6 @@ public class Constants {
     public static final String FIELD_BET_VALUE = "bet_value";
     public static final String FIELD_BET_GRADE = "bet_grade";
     public static final String FIELD_STUDENT_UID = "student_uid";
+    public static final String FIELD_STUDENT_NAME = "student_name";
     public static final String FIELD_STUDENTS = "students";
 }

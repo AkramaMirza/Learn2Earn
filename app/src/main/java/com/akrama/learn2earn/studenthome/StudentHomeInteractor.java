@@ -6,6 +6,7 @@ import com.akrama.learn2earn.Bet;
 import com.akrama.learn2earn.CompressedBet;
 import com.akrama.learn2earn.Constants;
 import com.akrama.learn2earn.FirebaseUtils;
+import com.akrama.learn2earn.Student;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -68,7 +69,7 @@ public class StudentHomeInteractor {
         });
     }
 
-    public void setTeacherUid(String teacherUid, Consumer<Boolean> listener) {
+    private void setTeacherUid(String teacherUid, Consumer<Boolean> listener) {
         Map<String, String> data = new HashMap<>();
         data.put(Constants.FIELD_TEACHER_UID, teacherUid);
         FirebaseUtils.getCurrentUserDocumentReference()
@@ -76,21 +77,21 @@ public class StudentHomeInteractor {
                 .addOnSuccessListener(aVoid -> listener.accept(true));
     }
 
-    public void setTeachersStudentUid(String teacherUid) {
-        String studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    // TODO: Move to cloud function
+    private void setTeachersStudentUid(String teacherUid) {
         FirebaseUtils.getUserDocumentReference(teacherUid).get().addOnSuccessListener(teacherDocument -> {
-            List<String> students;
+            List students;
             if (!teacherDocument.contains(Constants.FIELD_STUDENTS)) {
                students = new ArrayList<>();
             } else {
-                students = (List<String>) teacherDocument.get(Constants.FIELD_STUDENTS);
+                students = (List) teacherDocument.get(Constants.FIELD_STUDENTS);
             }
-            if (!students.contains(studentUid)) {
-                students.add(studentUid);
-                Map<String, List<String>> data = new HashMap<>();
-                data.put(Constants.FIELD_STUDENTS, students);
-                FirebaseUtils.getUserDocumentReference(teacherUid).set(data, SetOptions.merge());
-            }
+            String studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String studentName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            students.add(new Student(studentName, studentUid)); // TODO: Only add to the list if the student is not already added (don't allow duplicates)
+            Map<String, List<String>> data = new HashMap<>();
+            data.put(Constants.FIELD_STUDENTS, students);
+            FirebaseUtils.getUserDocumentReference(teacherUid).set(data, SetOptions.merge());
         });
     }
 
