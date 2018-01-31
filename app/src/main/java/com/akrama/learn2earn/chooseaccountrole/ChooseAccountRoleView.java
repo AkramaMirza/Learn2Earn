@@ -1,4 +1,4 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.chooseaccountrole;
 
 /**
  * Created by akrama on 24/01/18.

@@ -1,8 +1,8 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.chooseaccountrole;
 
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
+
+import com.akrama.learn2earn.Constants;
 
 /**
  * Created by akrama on 24/01/18.

@@ -1,17 +1,16 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.chooseaccountrole;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.akrama.learn2earn.BaseActivity;
+import com.akrama.learn2earn.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ChooseAccountRoleActivity extends BaseActivity implements ChooseAccountRoleView {
 

@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.akrama.learn2earn.chooseaccountrole.ChooseAccountRoleActivity;
+import com.akrama.learn2earn.parenthome.ParentHomeActivity;
+import com.akrama.learn2earn.parenthome.ParentHomePresenter;
+import com.akrama.learn2earn.studenthome.StudentHomeActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -72,19 +76,22 @@ public class MainActivity extends BaseActivity {
     }
 
     private void launchHomeScreen(String role) {
+        Intent intent;
         switch (role) {
             case Constants.ROLE_TEACHER:
                 Toast.makeText(this, "You are a teacher!", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, StudentHomeActivity.class);
                 break;
             case Constants.ROLE_PARENT:
                 Toast.makeText(this, "You are a parent!", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, ParentHomeActivity.class);
                 break;
             case Constants.ROLE_STUDENT:
             default:
                 Toast.makeText(this, "You are a student!", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, StudentHomeActivity.class);
                 break;
         }
-        Intent intent = new Intent(this, StudentHomeActivity.class);
         startActivity(intent);
         finish();
     }

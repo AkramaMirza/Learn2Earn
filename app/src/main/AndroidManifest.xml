@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChooseAccountRoleActivity" />
-        <activity android:name=".StudentHomeActivity"></activity>
+        <activity android:name=".chooseaccountrole.ChooseAccountRoleActivity" />
+        <activity android:name=".studenthome.StudentHomeActivity" />
+        <activity android:name=".parenthome.ParentHomeActivity"></activity>
     </application>
 
 </manifest>

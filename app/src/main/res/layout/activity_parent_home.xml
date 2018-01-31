@@ -28,14 +28,10 @@
                 android:orientation="vertical"
                 >
 
-                <include layout="@layout/student_home_active_bets_toolbar"/>
-
-                <include android:id="@+id/no_parent_view"
-                    layout="@layout/student_home_active_bets_content_no_parent"
-                    android:visibility="gone"/>
+                <include layout="@layout/parent_home_active_bets_toolbar"/>
 
                 <include android:id="@+id/no_bets_view"
-                    layout="@layout/student_home_active_bets_content_no_bets"
+                    layout="@layout/parent_home_active_bets_content_no_bets"
                     android:visibility="gone"/>
 
                 <include android:id="@+id/active_bets_progress_bar"

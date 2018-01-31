@@ -1,7 +1,11 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.studenthome;
 
 import android.text.TextUtils;
 
+import com.akrama.learn2earn.Bet;
+import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.Constants;
+import com.akrama.learn2earn.FirebaseUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;

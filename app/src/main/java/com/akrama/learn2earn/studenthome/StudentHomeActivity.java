@@ -1,4 +1,4 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.studenthome;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -9,6 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
+
+import com.akrama.learn2earn.ActiveBetAdapter;
+import com.akrama.learn2earn.Assignment;
+import com.akrama.learn2earn.AssignmentAdapter;
+import com.akrama.learn2earn.BaseActivity;
+import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.R;
 
 import java.util.List;
 
