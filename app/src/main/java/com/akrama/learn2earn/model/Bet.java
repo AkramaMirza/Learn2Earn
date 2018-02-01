@@ -1,5 +1,6 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.model;
 
+import com.akrama.learn2earn.Constants;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.HashMap;

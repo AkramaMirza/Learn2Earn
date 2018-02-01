@@ -1,7 +1,7 @@
 package com.akrama.learn2earn.studenthome;
 
-import com.akrama.learn2earn.Assignment;
-import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.model.Assignment;
+import com.akrama.learn2earn.model.CompressedBet;
 
 import java.util.List;
 

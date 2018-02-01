@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".chooseaccountrole.ChooseAccountRoleActivity" />
         <activity android:name=".studenthome.StudentHomeActivity" />
-        <activity android:name=".parenthome.ParentHomeActivity"></activity>
+        <activity android:name=".parenthome.ParentHomeActivity" />
+        <activity android:name=".teacherhome.TeacherHomeActivity"></activity>
     </application>
 
 </manifest>

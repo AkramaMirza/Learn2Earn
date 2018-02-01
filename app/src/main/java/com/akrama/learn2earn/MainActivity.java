@@ -9,6 +9,7 @@ import com.akrama.learn2earn.chooseaccountrole.ChooseAccountRoleActivity;
 import com.akrama.learn2earn.parenthome.ParentHomeActivity;
 import com.akrama.learn2earn.parenthome.ParentHomePresenter;
 import com.akrama.learn2earn.studenthome.StudentHomeActivity;
+import com.akrama.learn2earn.teacherhome.TeacherHomeActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity {
         switch (role) {
             case Constants.ROLE_TEACHER:
                 Toast.makeText(this, "You are a teacher!", Toast.LENGTH_LONG).show();
-                intent = new Intent(this, StudentHomeActivity.class);
+                intent = new Intent(this, TeacherHomeActivity.class);
                 break;
             case Constants.ROLE_PARENT:
                 Toast.makeText(this, "You are a parent!", Toast.LENGTH_LONG).show();

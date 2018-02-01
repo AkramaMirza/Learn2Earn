@@ -1,8 +1,7 @@
 package com.akrama.learn2earn.studenthome;
 
-import com.akrama.learn2earn.Assignment;
-import com.akrama.learn2earn.CompressedBet;
-import com.akrama.learn2earn.Constants;
+import com.akrama.learn2earn.model.Assignment;
+import com.akrama.learn2earn.model.CompressedBet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,7 @@ public class StudentHomePresenter {
                 });
             } else {
                 mView.hideFullScreenProgressBar();
-                mView.showCreateBetDialog(convertMapListToAssignmentList(assignments));
+                mView.showCreateBetDialog(Assignment.fromMapListToAssignmentList(assignments));
             }
         });
 
@@ -110,16 +109,6 @@ public class StudentHomePresenter {
         mView.hideNoBetsView();
         mView.hideNoParentView();
         mView.hideActiveBets();
-    }
-
-    private List<Assignment> convertMapListToAssignmentList(List<Map> mapList) {
-        List<Assignment> assignments = new ArrayList<>();
-        for (Map map : mapList) {
-            String name = (String) map.get(Constants.FIELD_ASSIGNMENT_NAME);
-            String uid = (String) map.get(Constants.FIELD_ASSIGNMENT_UID);
-            assignments.add(new Assignment(name, uid));
-        }
-        return assignments;
     }
 
     private List<CompressedBet> convertMapListToCompressedBetList(List<Map> mapList) {

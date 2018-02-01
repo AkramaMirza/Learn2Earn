@@ -41,14 +41,21 @@ public class FirebaseUtils {
 
     public static DocumentReference getCurrentUsersAssignments() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return getUserToAssignments(uid);
+    }
+
+    public static DocumentReference getUserToAssignments(String userUid) {
         return FirebaseFirestore.getInstance()
                 .collection(Constants.COLLECTION_USERS_TO_ASSIGNMENTS)
-                .document(uid);
+                .document(userUid);
     }
 
     public static DocumentReference getAssignmentWithUid(String uid) {
-        return FirebaseFirestore.getInstance().collection(Constants.COLLECTION_ASSIGNMENTS)
-                .document(uid);
+        return getAssignmentsCollection().document(uid);
+    }
+
+    public static CollectionReference getAssignmentsCollection() {
+        return FirebaseFirestore.getInstance().collection(Constants.COLLECTION_ASSIGNMENTS);
     }
 
     public static CollectionReference getBetsCollection() {

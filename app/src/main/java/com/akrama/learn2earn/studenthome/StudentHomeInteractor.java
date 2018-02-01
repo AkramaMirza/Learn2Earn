@@ -2,17 +2,12 @@ package com.akrama.learn2earn.studenthome;
 
 import android.text.TextUtils;
 
-import com.akrama.learn2earn.Bet;
-import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.model.Bet;
+import com.akrama.learn2earn.model.CompressedBet;
 import com.akrama.learn2earn.Constants;
 import com.akrama.learn2earn.FirebaseUtils;
-import com.akrama.learn2earn.Student;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.akrama.learn2earn.model.Student;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -128,7 +123,9 @@ public class StudentHomeInteractor {
             activeBets.add(compressedBet);
             Map<String, List<Map>> data = new HashMap<>();
             data.put(Constants.FIELD_ACTIVE_BETS, activeBets);
-            FirebaseUtils.getUsersActiveBets(userUid).set(data).addOnSuccessListener(aVoid -> listener.accept(true));
+            FirebaseUtils.getUsersActiveBets(userUid)
+                    .set(data, SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> listener.accept(true));
         });
     }
 

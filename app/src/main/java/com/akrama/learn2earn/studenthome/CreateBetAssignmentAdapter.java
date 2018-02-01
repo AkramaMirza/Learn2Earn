@@ -1,4 +1,4 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.studenthome;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.akrama.learn2earn.R;
+import com.akrama.learn2earn.model.Assignment;
+
 /**
  * Created by akrama on 26/01/18.
  */
 
-public class AssignmentAdapter extends ArrayAdapter<Assignment> {
+public class CreateBetAssignmentAdapter extends ArrayAdapter<Assignment> {
 
     private static class ViewHolder {
         public TextView assignmentNameTextView;
@@ -22,7 +25,7 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
         }
     }
 
-    public AssignmentAdapter(@NonNull Context context) {
+    public CreateBetAssignmentAdapter(@NonNull Context context) {
         super(context, 0);
     }
 
@@ -31,7 +34,7 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.assignments_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.create_bet_assignments_list_item, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
@@ -47,7 +50,7 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.assignments_drop_down_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.create_bet_assignments_drop_down_list_item, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

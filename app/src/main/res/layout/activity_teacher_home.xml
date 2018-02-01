@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.akrama.learn2earn.parenthome.ParentHomeActivity"
+    tools:context="com.akrama.learn2earn.teacherhome.TeacherHomeActivity"
     >
 
     <LinearLayout
@@ -28,17 +28,17 @@
                 android:orientation="vertical"
                 >
 
-                <include layout="@layout/parent_home_active_bets_toolbar"/>
+                <include layout="@layout/teacher_home_assignments_toolbar"/>
 
-                <include android:id="@+id/no_bets_view"
-                    layout="@layout/parent_home_active_bets_content_no_bets"
+                <include android:id="@+id/no_assignments_view"
+                    layout="@layout/teacher_home_assignments_content_no_assignments"
                     android:visibility="gone"/>
 
-                <include android:id="@+id/active_bets_progress_bar"
+                <include android:id="@+id/assignments_progress_bar"
                     layout="@layout/progress_bar_center"/>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/active_bets_list_view"
+                    android:id="@+id/assignments_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />

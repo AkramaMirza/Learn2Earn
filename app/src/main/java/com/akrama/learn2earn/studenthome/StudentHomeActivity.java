@@ -11,10 +11,9 @@ import android.view.View;
 import android.widget.Spinner;
 
 import com.akrama.learn2earn.ActiveBetAdapter;
-import com.akrama.learn2earn.Assignment;
-import com.akrama.learn2earn.AssignmentAdapter;
+import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.BaseActivity;
-import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.model.CompressedBet;
 import com.akrama.learn2earn.R;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
         TextInputEditText valueEditText = createBetDialog.findViewById(R.id.bet_value_edit_text);
         TextInputEditText gradeEditText = createBetDialog.findViewById(R.id.bet_grade_edit_text);
 
-        AssignmentAdapter adapter = new AssignmentAdapter(this);
+        CreateBetAssignmentAdapter adapter = new CreateBetAssignmentAdapter(this);
         adapter.addAll(assignments);
         assignmentSpinner.setAdapter(adapter);
 

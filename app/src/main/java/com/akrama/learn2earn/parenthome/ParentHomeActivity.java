@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.akrama.learn2earn.ActiveBetAdapter;
 import com.akrama.learn2earn.BaseActivity;
-import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.model.CompressedBet;
 import com.akrama.learn2earn.R;
 
 import java.util.List;

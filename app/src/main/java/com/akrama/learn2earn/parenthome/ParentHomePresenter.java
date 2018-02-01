@@ -1,6 +1,6 @@
 package com.akrama.learn2earn.parenthome;
 
-import com.akrama.learn2earn.CompressedBet;
+import com.akrama.learn2earn.model.CompressedBet;
 
 import java.util.ArrayList;
 import java.util.List;
