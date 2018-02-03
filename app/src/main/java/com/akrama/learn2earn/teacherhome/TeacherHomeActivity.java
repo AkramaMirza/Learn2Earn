@@ -1,6 +1,7 @@
 package com.akrama.learn2earn.teacherhome;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,9 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.akrama.learn2earn.Constants;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.BaseActivity;
 import com.akrama.learn2earn.R;
+import com.akrama.learn2earn.teacherhome.studentlist.TeacherHomeStudentListActivity;
+import com.akrama.learn2earn.teacherhome.studentlist.TeacherHomeStudentListView;
 
 import java.util.List;
 
@@ -37,6 +41,7 @@ public class TeacherHomeActivity extends BaseActivity implements TeacherHomeView
         ButterKnife.bind(this);
 
         mAssignmentAdapter = new TeacherHomeAssignmentAdapter(this);
+        mAssignmentAdapter.setOnClickListener(this::onAssignmentClicked);
         mAssignmentsRecyclerView.setAdapter(mAssignmentAdapter);
         mAssignmentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAssignmentsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -62,6 +67,18 @@ public class TeacherHomeActivity extends BaseActivity implements TeacherHomeView
                 .setView(createAssignmentDialogContent)
                 .create()
                 .show();
+    }
+
+    private void onAssignmentClicked(Assignment assignment) {
+        mPresenter.onAssignmentClicked(assignment);
+    }
+
+    @Override
+    public void launchStudentListScreen(Assignment assignment) {
+        Intent intent = new Intent(this, TeacherHomeStudentListActivity.class);
+        intent.putExtra(Constants.EXTRA_ASSIGNMENT_NAME, assignment.getName());
+        intent.putExtra(Constants.EXTRA_ASSIGNMENT_UID, assignment.getUid());
+        startActivity(intent);
     }
 
     @Override

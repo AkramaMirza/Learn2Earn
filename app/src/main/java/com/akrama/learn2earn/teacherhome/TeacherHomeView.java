@@ -18,4 +18,5 @@ public interface TeacherHomeView {
     void hideNoAssignmentsView();
     void showAssignments(List<Assignment> assignments);
     void hideAssignments();
+    void launchStudentListScreen(Assignment assignment);
 }

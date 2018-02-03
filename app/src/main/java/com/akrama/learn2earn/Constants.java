@@ -30,4 +30,8 @@ public class Constants {
     public static final String FIELD_STUDENT_UID = "student_uid";
     public static final String FIELD_STUDENT_NAME = "student_name";
     public static final String FIELD_STUDENTS = "students";
+
+    public static final String EXTRA_ASSIGNMENT_NAME = "assignment_name";
+    public static final String EXTRA_ASSIGNMENT_UID = "assignment_uid";
+
 }

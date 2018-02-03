@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.akrama.learn2earn.teacherhome.studentlist.TeacherHomeStudentListActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/student_list_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:titleTextColor="?android:textColorPrimaryInverse"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/students_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                />
+
+            <include android:id="@+id/no_students"
+                layout="@layout/teacher_home_no_students"
+                android:visibility="gone"
+                />
+
+            <include android:id="@+id/progress_bar"
+                layout="@layout/progress_bar_center"/>
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/submit_grades_btn"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="@string/teacher_home_submit_grades"
+            android:visibility="gone"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            />
+
+    </LinearLayout>
+
+    <include android:id="@+id/full_screen_progress_bar"
+        layout="@layout/progress_bar_center_dark_background"
+        android:visibility="gone" />
+
+</FrameLayout>

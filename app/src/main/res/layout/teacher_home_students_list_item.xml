@@ -7,12 +7,21 @@
     >
 
     <TextView
-        android:id="@+id/assignments_list_item_name_text_view"
+        android:id="@+id/students_list_item_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|left"
         android:layout_margin="16dp"
         style="@style/Base.TextAppearance.AppCompat.Medium"
+        />
+
+    <TextView
+        android:id="@+id/students_list_item_grade_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:layout_margin="16dp"
+        android:textColor="@color/colorAccent"
         />
 
 </FrameLayout>

@@ -44,4 +44,7 @@ public class TeacherHomePresenter {
         });
     }
 
+    public void onAssignmentClicked(Assignment assignment) {
+        mView.launchStudentListScreen(assignment);
+    }
 }
