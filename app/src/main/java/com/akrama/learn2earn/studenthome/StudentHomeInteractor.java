@@ -2,6 +2,7 @@ package com.akrama.learn2earn.studenthome;
 
 import android.text.TextUtils;
 
+import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.model.Bet;
 import com.akrama.learn2earn.model.CompressedBet;
 import com.akrama.learn2earn.Constants;
@@ -91,25 +92,25 @@ public class StudentHomeInteractor {
     }
 
     // TODO: Move to cloud function
-    public void createBet(String assignmentUid, String value, String grade, Consumer<Boolean> listener) {
-        final String studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public void createBet(Assignment assignment, String value, String grade, Consumer<Boolean> listener) {
 
         FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(currentUserDocument -> {
+            final String studentUid = currentUserDocument.getId();
             final String parentUid = currentUserDocument.getString(Constants.FIELD_PARENT_UID);
+            final String teacherUid = currentUserDocument.getString(Constants.FIELD_TEACHER_UID);
+            final String assignmentName = assignment.getName();
+            final String assignmentUid = assignment.getUid();
+            Bet bet = new Bet(studentUid, parentUid, teacherUid, assignmentName, assignmentUid, value, grade);
 
-            FirebaseUtils.getAssignmentWithUid(assignmentUid).get().addOnSuccessListener(assignmentDocument -> {
-                final String teacherUid = assignmentDocument.getString(Constants.FIELD_TEACHER_UID);
-                final String assignmentName = assignmentDocument.getString(Constants.FIELD_ASSIGNMENT_NAME);
-                Bet bet = new Bet(studentUid, parentUid, teacherUid, assignmentUid, value, grade);
-
-                FirebaseUtils.getBetsCollection().add(bet).addOnSuccessListener(betDocument -> {
-                    String betUid = betDocument.getId();
-                    CompressedBet compressedBet = new CompressedBet(assignmentName, betUid, value, grade);
-                    addBetToUser(studentUid, compressedBet, listener);
-                    addBetToUser(parentUid, compressedBet, aVoid -> {});
-                });
+            FirebaseUtils.getBetsCollection().add(bet).addOnSuccessListener(betDocument -> {
+                String betUid = betDocument.getId();
+                CompressedBet compressedBet = new CompressedBet(assignmentName, betUid, value, grade);
+                addBetToUser(studentUid, compressedBet, listener);
+                addBetToUser(parentUid, compressedBet, aVoid -> {});
             });
+
         });
+
     }
 
     private void addBetToUser(String userUid, CompressedBet compressedBet, Consumer<Boolean> listener) {

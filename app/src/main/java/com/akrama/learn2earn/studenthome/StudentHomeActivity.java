@@ -90,8 +90,8 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
                 .setPositiveButton(getString(R.string.create_bet_create), (dialogInterface, i) -> {
                     String grade = gradeEditText.getText().toString();
                     String value = valueEditText.getText().toString();
-                    String assignmentUid = ((Assignment) assignmentSpinner.getSelectedItem()).getUid();
-                    mPresenter.onCreateBetSubmitted(assignmentUid, value, grade);
+                    Assignment assignment = (Assignment) assignmentSpinner.getSelectedItem();
+                    mPresenter.onCreateBetSubmitted(assignment, value, grade);
                 })
                 .create()
                 .show();

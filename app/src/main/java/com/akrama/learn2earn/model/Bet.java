@@ -15,15 +15,17 @@ public class Bet {
     private String studentUid;
     private String parentUid;
     private String teacherUid;
+    private String assignmentName;
     private String assignmentUid;
     private String betValue;
     private String betGrade;
 
-    public Bet(String studentUid, String parentUid, String teacherUid, String assignmentUid,
-               String betValue, String betGrade) {
+    public Bet(String studentUid, String parentUid, String teacherUid, String assignmentName,
+               String assignmentUid, String betValue, String betGrade) {
         this.studentUid = studentUid;
         this.parentUid = parentUid;
         this.teacherUid = teacherUid;
+        this.assignmentName = assignmentName;
         this.assignmentUid = assignmentUid;
         this.betValue = betValue;
         this.betGrade = betGrade;
@@ -42,6 +44,11 @@ public class Bet {
     @PropertyName(Constants.FIELD_TEACHER_UID)
     public String getTeacherUid() {
         return teacherUid;
+    }
+
+    @PropertyName(Constants.FIELD_ASSIGNMENT_NAME)
+    public String getAssignmentName() {
+        return assignmentName;
     }
 
     @PropertyName(Constants.FIELD_ASSIGNMENT_UID)

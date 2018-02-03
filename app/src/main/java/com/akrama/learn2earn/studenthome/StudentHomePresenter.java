@@ -99,9 +99,9 @@ public class StudentHomePresenter {
         });
     }
 
-    public void onCreateBetSubmitted(String assignmentUid, String value, String grade) {
+    public void onCreateBetSubmitted(Assignment assignment, String value, String grade) {
         mView.showFullScreenProgressBar();
-        mInteractor.createBet(assignmentUid, value, grade, success -> mView.hideFullScreenProgressBar());
+        mInteractor.createBet(assignment, value, grade, success -> mView.hideFullScreenProgressBar());
     }
 
     private void hideAllViewsExceptProgressBar() {
