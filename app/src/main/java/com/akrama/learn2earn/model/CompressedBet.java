@@ -15,10 +15,10 @@ public class CompressedBet {
     private String assignmentName;
     private String betUid;
     private String betValue;
-    private String betGrade;
+    private Long betGrade;
 
 
-    public CompressedBet(String assignmentName, String betUid, String betValue, String betGrade) {
+    public CompressedBet(String assignmentName, String betUid, String betValue, Long betGrade) {
         this.assignmentName = assignmentName;
         this.betUid = betUid;
         this.betValue = betValue;
@@ -41,7 +41,7 @@ public class CompressedBet {
     }
 
     @PropertyName(Constants.FIELD_BET_GRADE)
-    public String getBetGrade() {
+    public Long getBetGrade() {
         return betGrade;
     }
 
@@ -50,16 +50,11 @@ public class CompressedBet {
         return Float.valueOf(betValue);
     }
 
-    @Exclude
-    public float getBetGradeAsFloat() {
-        return Float.valueOf(betGrade);
-    }
-
     public static CompressedBet fromMap(Map map) {
         String assignmentName = (String) map.get(Constants.FIELD_ASSIGNMENT_NAME);
         String betUid = (String) map.get(Constants.FIELD_BET_UID);
         String betValue = (String) map.get(Constants.FIELD_BET_VALUE);
-        String betGrade = (String) map.get(Constants.FIELD_BET_GRADE);
+        Long betGrade = (Long) map.get(Constants.FIELD_BET_GRADE);
         return new CompressedBet(assignmentName, betUid, betValue, betGrade);
     }
 }

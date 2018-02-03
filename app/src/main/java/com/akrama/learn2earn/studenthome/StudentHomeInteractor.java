@@ -92,7 +92,7 @@ public class StudentHomeInteractor {
     }
 
     // TODO: Move to cloud function
-    public void createBet(Assignment assignment, String value, String grade, Consumer<Boolean> listener) {
+    public void createBet(Assignment assignment, String value, Long grade, Consumer<Boolean> listener) {
 
         FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(currentUserDocument -> {
             final String studentUid = currentUserDocument.getId();

@@ -23,7 +23,7 @@ public class TeacherHomeStudentListAdapter extends RecyclerView.Adapter<TeacherH
     private static final Consumer<Integer> EMPTY_LISTENER = integer -> {};
 
     private List<Student> mStudents = new ArrayList<>();
-    private String[] mGrades;
+    private Integer[] mGrades;
     private Context mContext;
     private Consumer<Integer> mOnClickListener = EMPTY_LISTENER;
 
@@ -42,7 +42,7 @@ public class TeacherHomeStudentListAdapter extends RecyclerView.Adapter<TeacherH
         Student student = mStudents.get(position);
         holder.mStudentNameTextView.setText(student.getStudentName());
         if (mGrades[position] != null) {
-            holder.mStudentGradeTextView.setText(String.format("%s%%", mGrades[position]));
+            holder.mStudentGradeTextView.setText(String.format("%d%%", mGrades[position]));
         } else {
             holder.mStudentGradeTextView.setText("");
         }
@@ -50,7 +50,7 @@ public class TeacherHomeStudentListAdapter extends RecyclerView.Adapter<TeacherH
 
     public void setStudents(List<Student> studentList) {
         mStudents = studentList;
-        mGrades = new String[mStudents.size()];
+        mGrades = new Integer[mStudents.size()];
         notifyDataSetChanged();
     }
 
@@ -66,7 +66,7 @@ public class TeacherHomeStudentListAdapter extends RecyclerView.Adapter<TeacherH
         return mStudents;
     }
 
-    public String[] getGrades() {
+    public Integer[] getGrades() {
         return mGrades;
     }
 
@@ -75,7 +75,7 @@ public class TeacherHomeStudentListAdapter extends RecyclerView.Adapter<TeacherH
         return mStudents.size();
     }
 
-    public void setGrade(Integer index, String grade) {
+    public void setGrade(Integer index, Integer grade) {
         mGrades[index] = grade;
         notifyItemChanged(index);
     }

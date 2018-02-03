@@ -99,7 +99,7 @@ public class StudentHomePresenter {
         });
     }
 
-    public void onCreateBetSubmitted(Assignment assignment, String value, String grade) {
+    public void onCreateBetSubmitted(Assignment assignment, String value, Long grade) {
         mView.showFullScreenProgressBar();
         mInteractor.createBet(assignment, value, grade, success -> mView.hideFullScreenProgressBar());
     }

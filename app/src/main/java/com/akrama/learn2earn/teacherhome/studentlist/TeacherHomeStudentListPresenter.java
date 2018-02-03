@@ -39,11 +39,11 @@ public class TeacherHomeStudentListPresenter {
         mView.showSetGradeDialog(index);
     }
 
-    public void onSetGradeClicked(Integer index, String grade) {
+    public void onSetGradeClicked(Integer index, Integer grade) {
         mView.updateGrade(index, grade);
     }
 
-    public void onSubmitGradesClicked(List<Student> students, String[] grades) {
+    public void onSubmitGradesClicked(List<Student> students, Integer[] grades) {
         // TODO: send to ETHEREUM smart contract
         mView.showFullscreenProgressBar();
         mInteractor.deleteAssignment(mAssignmentUid, students, success -> {

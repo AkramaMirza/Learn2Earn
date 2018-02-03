@@ -19,7 +19,7 @@ public interface TeacherHomeStudentListView {
     void showNoStudentsView();
     void hideNoStudentsView();
     void showSetGradeDialog(Integer index);
-    void updateGrade(Integer index, String grade);
+    void updateGrade(Integer index, Integer grade);
     void showSubmitGradesButton();
     void hideSubmitGradesButton();
     void finishActivity();

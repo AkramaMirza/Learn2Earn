@@ -18,10 +18,10 @@ public class Bet {
     private String assignmentName;
     private String assignmentUid;
     private String betValue;
-    private String betGrade;
+    private Long betGrade;
 
     public Bet(String studentUid, String parentUid, String teacherUid, String assignmentName,
-               String assignmentUid, String betValue, String betGrade) {
+               String assignmentUid, String betValue, Long betGrade) {
         this.studentUid = studentUid;
         this.parentUid = parentUid;
         this.teacherUid = teacherUid;
@@ -62,7 +62,7 @@ public class Bet {
     }
 
     @PropertyName(Constants.FIELD_BET_GRADE)
-    public String getBetGrade() {
+    public Long getBetGrade() {
         return betGrade;
     }
 }

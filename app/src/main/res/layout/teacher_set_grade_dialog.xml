@@ -12,7 +12,7 @@
         android:layout_margin="20dp"
         android:hint="Grade (%)"
         android:imeOptions="actionDone"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         />
 
 </android.support.design.widget.TextInputLayout>

@@ -76,14 +76,14 @@ public class TeacherHomeStudentListActivity extends BaseActivity implements Teac
                 .setMessage(String.format(getString(R.string.teacher_home_set_grade_description), mAssignmentName))
                 .setView(setGradeDialogContent)
                 .setPositiveButton(getString(R.string.teacher_home_set_grade), ((dialog, which) -> {
-                    mPresenter.onSetGradeClicked(index, gradeEditText.getText().toString());
+                    mPresenter.onSetGradeClicked(index, Integer.parseInt(gradeEditText.getText().toString()));
                 }))
                 .create()
                 .show();
     }
 
     @Override
-    public void updateGrade(Integer index, String grade) {
+    public void updateGrade(Integer index, Integer grade) {
         mStudentAdapter.setGrade(index, grade);
     }
 
