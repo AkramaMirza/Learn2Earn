@@ -1,5 +1,9 @@
 package com.akrama.learn2earn.studenthome;
 
+import android.content.Context;
+
+import com.akrama.learn2earn.Constants;
+import com.akrama.learn2earn.EthereumInteractor;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.model.CompressedBet;
 
@@ -21,7 +25,7 @@ public class StudentHomePresenter {
         mInteractor = new StudentHomeInteractor();
     }
 
-    public void onCreate() {
+    public void onCreate(Context context) {
         mInteractor.requestActiveBets(activeBets -> {
             hideAllViewsExceptProgressBar();
             if (activeBets == null || activeBets.isEmpty()) {
@@ -42,6 +46,15 @@ public class StudentHomePresenter {
                 mView.hideProgressBar();
                 mView.enableCreateBetButton();
                 mView.showActiveBets(convertMapListToCompressedBetList(activeBets));
+            }
+        });
+
+        mView.showFullScreenProgressBar();
+        EthereumInteractor.getInstance().init(context, Constants.ROLE_STUDENT, success -> {
+            if (success) {
+                mView.hideFullScreenProgressBar();
+            } else {
+                // TODO: inform the user that we can't connect to ethereum network
             }
         });
     }

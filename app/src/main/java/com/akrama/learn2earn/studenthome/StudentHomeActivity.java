@@ -45,7 +45,7 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mActiveBetsRecyclerView.addItemDecoration(decoration);
         mPresenter = new StudentHomePresenter(this);
-        mPresenter.onCreate();
+        mPresenter.onCreate(this.getApplicationContext());
     }
 
     @OnClick(R.id.add_parent_btn)
@@ -150,7 +150,7 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
 
     @Override
     public void hideFullScreenProgressBar() {
-        mFullScreenProgressBar.setVisibility(View.GONE);
+        runOnUiThread(() -> mFullScreenProgressBar.setVisibility(View.GONE));
     }
 
     @Override
