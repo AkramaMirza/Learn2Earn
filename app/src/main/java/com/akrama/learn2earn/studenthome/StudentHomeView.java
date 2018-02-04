@@ -25,4 +25,5 @@ public interface StudentHomeView {
     void disableCreateBetButton();
     void showActiveBets(List<CompressedBet> bets);
     void hideActiveBets();
+    void showCurrentBalance(String balance);
 }

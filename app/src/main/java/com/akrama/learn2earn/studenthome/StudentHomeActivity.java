@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.akrama.learn2earn.ActiveBetAdapter;
 import com.akrama.learn2earn.model.Assignment;
@@ -27,9 +28,10 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @BindView(R.id.active_bets_list_view) RecyclerView mActiveBetsRecyclerView;
     @BindView(R.id.no_parent_view) View mNoParentView;
     @BindView(R.id.no_bets_view) View mNoBetsView;
-    @BindView(R.id.active_bets_progress_bar) View mActiveBetsProgessBar;
+    @BindView(R.id.active_bets_progress_bar) View mActiveBetsProgressBar;
     @BindView(R.id.progress_bar) View mFullScreenProgressBar;
     @BindView(R.id.create_bet_btn) View mCreateBetButton;
+    @BindView(R.id.current_balance_text_view) TextView mCurrentBalanceTextView;
 
     private StudentHomePresenter mPresenter;
     private ActiveBetAdapter mActiveBetAdapter;
@@ -56,6 +58,11 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @OnClick({R.id.create_bet_btn, R.id.no_bets_create_bet_btn})
     public void onCreateBetClicked() {
         mPresenter.onCreateBetClicked();
+    }
+
+    @OnClick(R.id.update_balance_btn)
+    public void onUpdateBalanceClicked() {
+        mPresenter.onUpdateBalanceClicked();
     }
 
     @Override
@@ -135,12 +142,12 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
 
     @Override
     public void showProgressBar() {
-        mActiveBetsProgessBar.setVisibility(View.VISIBLE);
+        mActiveBetsProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        mActiveBetsProgessBar.setVisibility(View.GONE);
+        mActiveBetsProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -171,5 +178,10 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @Override
     public void disableCreateBetButton() {
         mCreateBetButton.setEnabled(false);
+    }
+
+    @Override
+    public void showCurrentBalance(String balance) {
+        runOnUiThread(() -> mCurrentBalanceTextView.setText(String.format(getString(R.string.home_current_balance), balance)));
     }
 }

@@ -7,6 +7,9 @@ import com.akrama.learn2earn.EthereumInteractor;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.model.CompressedBet;
 
+import org.web3j.utils.Convert;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +22,12 @@ public class StudentHomePresenter {
 
     private StudentHomeView mView;
     private StudentHomeInteractor mInteractor;
+    private EthereumInteractor mEthereumInteractor;
 
     public StudentHomePresenter(StudentHomeView view) {
         mView = view;
         mInteractor = new StudentHomeInteractor();
+        mEthereumInteractor = EthereumInteractor.getInstance();
     }
 
     public void onCreate(Context context) {
@@ -50,9 +55,17 @@ public class StudentHomePresenter {
         });
 
         mView.showFullScreenProgressBar();
-        EthereumInteractor.getInstance().init(context, Constants.ROLE_STUDENT, success -> {
+        mEthereumInteractor.init(context, Constants.ROLE_STUDENT, success -> {
             if (success) {
-                mView.hideFullScreenProgressBar();
+                mEthereumInteractor.requestCurrentBalance(balance -> {
+                    mView.hideFullScreenProgressBar();
+                    if (balance != null) {
+                        BigDecimal balanceEth = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
+                        mView.showCurrentBalance(balanceEth.toPlainString());
+                    } else {
+                        // TODO: inform the user that the current balance could not be retrieved
+                    }
+                });
             } else {
                 // TODO: inform the user that we can't connect to ethereum network
             }
@@ -130,5 +143,16 @@ public class StudentHomePresenter {
             compressedBets.add(CompressedBet.fromMap(map));
         }
         return compressedBets;
+    }
+
+    public void onUpdateBalanceClicked() {
+        mEthereumInteractor.requestCurrentBalance(balance -> {
+            if (balance != null) {
+                BigDecimal balanceEth = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
+                mView.showCurrentBalance(balanceEth.toPlainString());
+            } else {
+                // TODO: inform the user that the current balance could not be retrieved
+            }
+        });
     }
 }

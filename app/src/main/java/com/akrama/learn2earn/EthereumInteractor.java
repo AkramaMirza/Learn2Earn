@@ -6,6 +6,8 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.http.HttpService;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.function.Consumer;
 
 /**
@@ -70,6 +73,18 @@ public class EthereumInteractor {
                 e.printStackTrace();
                 listener.accept(false);
             }
+        }).start();
+    }
+
+    public void requestCurrentBalance(Consumer<BigInteger> listener) {
+        new Thread(() -> {
+            BigInteger balance = null;
+            try {
+                balance = mWeb3j.ethGetBalance(mCredentials.getAddress(), DefaultBlockParameterName.LATEST).send().getBalance();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            listener.accept(balance);
         }).start();
     }
 
