@@ -9,6 +9,7 @@ import com.akrama.learn2earn.model.CompressedBet;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Created by akrama on 31/01/18.
@@ -73,9 +74,10 @@ public class ParentHomePresenter {
 
     public void onConfirmBetClicked(CompressedBet bet) {
         mView.showFullScreenProgressBar();
+        mView.showBetBeingConfirmedToast();
         bet.setConfirmed(true);
-        mInteractor.updateBet(bet, success -> {
-            mView.hideFullScreenProgressBar();
-        });
+        mInteractor.updateBet(bet, success -> {});
+        BigInteger valueWei = Convert.toWei(bet.getBetValue(), Convert.Unit.ETHER).toBigInteger();
+        mEthereumInteractor.confirmBet(bet.getBetUid(), valueWei, success -> mView.hideFullScreenProgressBar());
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.akrama.learn2earn.BaseActivity;
 import com.akrama.learn2earn.R;
@@ -96,5 +97,10 @@ public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
     @Override
     public void showCurrentBalance(String balance) {
         runOnUiThread(() -> mCurrentBalanceTextView.setText(String.format(getString(R.string.home_current_balance), balance)));
+    }
+
+    @Override
+    public void showBetBeingConfirmedToast() {
+        Toast.makeText(this, getString(R.string.home_bet_being_confirmed), Toast.LENGTH_LONG).show();
     }
 }

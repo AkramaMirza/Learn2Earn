@@ -18,4 +18,5 @@ public interface ParentHomeView {
     void showCurrentBalance(String balance);
     void showFullScreenProgressBar();
     void hideFullScreenProgressBar();
+    void showBetBeingConfirmedToast();
 }

@@ -107,6 +107,18 @@ public class EthereumInteractor {
         }).start();
     }
 
+    public void confirmBet(String betUid, BigInteger betValue, Consumer<Boolean> listener) {
+        new Thread(() -> {
+            try {
+                mContract.confirmBet(betUid, betValue).send();
+                listener.accept(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                listener.accept(false);
+            }
+        }).start();
+    }
+
     // Copied from https://stackoverflow.com/questions/10854211/android-store-inputstream-in-file
     private void copyInputStreamToFile(InputStream in, File file) {
         OutputStream out = null;

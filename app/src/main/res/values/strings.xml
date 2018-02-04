@@ -20,6 +20,7 @@
     <string name="home_current_balance">Current Balance: %1$s ETH</string>
     <string name="home_update_current_balance">Update Balance</string>
     <string name="home_minimum_grade">Minimum Grade: %1$d%%</string>
+    <string name="home_bet_being_confirmed">The bet is being confirmed, this may take up to a minute</string>
 
     <string name="teacher_home_set_grade">Set Grade</string>
     <string name="teacher_home_set_grade_description">Enter this student\'s grade for %1$s</string>

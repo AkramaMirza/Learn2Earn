@@ -44,7 +44,7 @@ public class Learn2EarnContract extends Contract {
 
     public RemoteCall<TransactionReceipt> confirmBet(String betUid, BigInteger weiValue) {
         Function function = new Function(
-                "updateBet",
+                "confirmBet",
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Utf8String(betUid)), 
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function, weiValue);
