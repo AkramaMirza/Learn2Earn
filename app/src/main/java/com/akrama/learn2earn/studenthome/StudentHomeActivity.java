@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.akrama.learn2earn.ActiveBetAdapter;
 import com.akrama.learn2earn.model.Assignment;
@@ -183,5 +184,10 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @Override
     public void showCurrentBalance(String balance) {
         runOnUiThread(() -> mCurrentBalanceTextView.setText(String.format(getString(R.string.home_current_balance), balance)));
+    }
+
+    @Override
+    public void showNoAssignmentsToast() {
+        Toast.makeText(this, getString(R.string.student_home_no_assignments_toast), Toast.LENGTH_LONG).show();
     }
 }

@@ -84,7 +84,7 @@ public class StudentHomePresenter {
                 mInteractor.requestTeacherStatus(hasClassroom -> {
                     mView.hideFullScreenProgressBar();
                     if (hasClassroom) {
-                        // TODO: inform the user that there are no assignments to bet on
+                        mView.showNoAssignmentsToast();
                     } else {
                         mView.showAddTeacherDialog();
                     }

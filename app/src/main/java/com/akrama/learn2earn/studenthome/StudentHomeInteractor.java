@@ -29,7 +29,9 @@ public class StudentHomeInteractor {
                 listener.accept(false);
             } else {
                 String parentUid = documentSnapshots.getDocuments().get(0).getId();
+                String parentAddress = (String) documentSnapshots.getDocuments().get(0).get(Constants.FIELD_WALLET_ADDRESS);
                 setParentUid(parentUid, listener);
+                setParentAddress(parentAddress);
                 setParentsChildUid(parentUid);
             }
         });
@@ -42,6 +44,13 @@ public class StudentHomeInteractor {
                 .set(data, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> listener.accept(true))
                 .addOnFailureListener(e -> listener.accept(false));
+    }
+
+    private void setParentAddress(String address) {
+        Map<String, String> data = new HashMap<>();
+        data.put(Constants.FIELD_PARENT_ADDRESS, address);
+        FirebaseUtils.getCurrentUserDocumentReference()
+                .set(data, SetOptions.merge());
     }
 
     // TODO: Move to cloud function
@@ -59,7 +68,9 @@ public class StudentHomeInteractor {
                 listener.accept(false);
             } else {
                 String teacherUid = documentSnapshots.getDocuments().get(0).getId();
+                String teacherAddress = (String) documentSnapshots.getDocuments().get(0).get(Constants.FIELD_WALLET_ADDRESS);
                 setTeacherUid(teacherUid, listener);
+                setTeacherAddress(teacherAddress);
                 setTeachersStudentUid(teacherUid);
             }
         });
@@ -73,12 +84,19 @@ public class StudentHomeInteractor {
                 .addOnSuccessListener(aVoid -> listener.accept(true));
     }
 
+    private void setTeacherAddress(String teacherAddress) {
+        Map<String, String> data = new HashMap<>();
+        data.put(Constants.FIELD_TEACHER_ADDRESS, teacherAddress);
+        FirebaseUtils.getCurrentUserDocumentReference()
+                .set(data, SetOptions.merge());
+    }
+
     // TODO: Move to cloud function
     private void setTeachersStudentUid(String teacherUid) {
         FirebaseUtils.getUserDocumentReference(teacherUid).get().addOnSuccessListener(teacherDocument -> {
             List students;
             if (!teacherDocument.contains(Constants.FIELD_STUDENTS)) {
-               students = new ArrayList<>();
+                students = new ArrayList<>();
             } else {
                 students = (List) teacherDocument.get(Constants.FIELD_STUDENTS);
             }
@@ -95,15 +113,17 @@ public class StudentHomeInteractor {
     public void createBet(Assignment assignment, String value, Long grade, Consumer<Boolean> listener) {
 
         FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(currentUserDocument -> {
-            final String studentUid = currentUserDocument.getId();
-            final String parentUid = currentUserDocument.getString(Constants.FIELD_PARENT_UID);
-            final String teacherUid = currentUserDocument.getString(Constants.FIELD_TEACHER_UID);
+            final String studentAddress = currentUserDocument.getString(Constants.FIELD_WALLET_ADDRESS);
+            final String parentAddress = currentUserDocument.getString(Constants.FIELD_PARENT_ADDRESS);
+            final String teacherAddress = currentUserDocument.getString(Constants.FIELD_TEACHER_ADDRESS);
             final String assignmentName = assignment.getName();
             final String assignmentUid = assignment.getUid();
-            Bet bet = new Bet(studentUid, parentUid, teacherUid, assignmentName, assignmentUid, value, grade);
+            Bet bet = new Bet(studentAddress, parentAddress, teacherAddress, assignmentName, assignmentUid, value, grade);
 
             FirebaseUtils.getBetsCollection().add(bet).addOnSuccessListener(betDocument -> {
                 String betUid = betDocument.getId();
+                String studentUid = currentUserDocument.getId();
+                String parentUid = currentUserDocument.getString(Constants.FIELD_PARENT_UID);
                 CompressedBet compressedBet = new CompressedBet(assignmentName, betUid, value, grade);
                 addBetToUser(studentUid, compressedBet, listener);
                 addBetToUser(parentUid, compressedBet, aVoid -> {});

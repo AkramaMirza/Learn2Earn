@@ -12,38 +12,38 @@ import java.util.Map;
 
 public class Bet {
 
-    private String studentUid;
-    private String parentUid;
-    private String teacherUid;
+    private String studentAddress;
+    private String parentAddress;
+    private String teacherAddress;
     private String assignmentName;
     private String assignmentUid;
     private String betValue;
     private Long betGrade;
 
-    public Bet(String studentUid, String parentUid, String teacherUid, String assignmentName,
+    public Bet(String studentAddress, String parentAddress, String teacherAddress, String assignmentName,
                String assignmentUid, String betValue, Long betGrade) {
-        this.studentUid = studentUid;
-        this.parentUid = parentUid;
-        this.teacherUid = teacherUid;
+        this.studentAddress = studentAddress;
+        this.parentAddress = parentAddress;
+        this.teacherAddress = teacherAddress;
         this.assignmentName = assignmentName;
         this.assignmentUid = assignmentUid;
         this.betValue = betValue;
         this.betGrade = betGrade;
     }
 
-    @PropertyName(Constants.FIELD_STUDENT_UID)
-    public String getStudentUid() {
-        return studentUid;
+    @PropertyName(Constants.FIELD_STUDENT_ADDRESS)
+    public String getStudentAddress() {
+        return studentAddress;
     }
 
-    @PropertyName(Constants.FIELD_PARENT_UID)
-    public String getParentUid() {
-        return parentUid;
+    @PropertyName(Constants.FIELD_PARENT_ADDRESS)
+    public String getParentAddress() {
+        return parentAddress;
     }
 
-    @PropertyName(Constants.FIELD_TEACHER_UID)
-    public String getTeacherUid() {
-        return teacherUid;
+    @PropertyName(Constants.FIELD_TEACHER_ADDRESS)
+    public String getTeacherAddress() {
+        return teacherAddress;
     }
 
     @PropertyName(Constants.FIELD_ASSIGNMENT_NAME)
