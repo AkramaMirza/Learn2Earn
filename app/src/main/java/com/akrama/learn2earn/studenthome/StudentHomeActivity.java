@@ -189,4 +189,9 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     public void showNoAssignmentsToast() {
         Toast.makeText(this, getString(R.string.student_home_no_assignments_toast), Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void showBetIsBeingCreatedToast() {
+        Toast.makeText(this, getString(R.string.student_home_bet_being_created), Toast.LENGTH_LONG).show();
+    }
 }

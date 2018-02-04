@@ -7,12 +7,16 @@ import com.akrama.learn2earn.ethereum.EthereumInteractor;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.model.CompressedBet;
 
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import rx.functions.Action1;
 
 /**
  * Created by akrama on 25/01/18.
@@ -127,7 +131,16 @@ public class StudentHomePresenter {
 
     public void onCreateBetSubmitted(Assignment assignment, String value, Long grade) {
         mView.showFullScreenProgressBar();
-        mInteractor.createBet(assignment, value, grade, success -> mView.hideFullScreenProgressBar());
+        mView.showBetIsBeingCreatedToast();
+        mInteractor.createBet(assignment, value, grade, betUid -> {
+            mInteractor.requestAddresses(addresses -> {
+                BigInteger valueWei = Convert.toWei(value, Convert.Unit.ETHER).toBigInteger();
+                BigInteger gradeBigInteger = new BigInteger(String.valueOf(grade));
+                mEthereumInteractor.createBet(addresses, betUid, valueWei, gradeBigInteger, success -> {
+                    mView.hideFullScreenProgressBar();
+                });
+            });
+        });
     }
 
     private void hideAllViewsExceptProgressBar() {

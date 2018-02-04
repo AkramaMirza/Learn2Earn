@@ -2,6 +2,7 @@ package com.akrama.learn2earn.studenthome;
 
 import android.text.TextUtils;
 
+import com.akrama.learn2earn.model.Addresses;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.model.Bet;
 import com.akrama.learn2earn.model.CompressedBet;
@@ -110,7 +111,7 @@ public class StudentHomeInteractor {
     }
 
     // TODO: Move to cloud function
-    public void createBet(Assignment assignment, String value, Long grade, Consumer<Boolean> listener) {
+    public void createBet(Assignment assignment, String value, Long grade, Consumer<String> listener) {
 
         FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(currentUserDocument -> {
             final String studentAddress = currentUserDocument.getString(Constants.FIELD_WALLET_ADDRESS);
@@ -133,7 +134,7 @@ public class StudentHomeInteractor {
 
     }
 
-    private void addBetToUser(String userUid, CompressedBet compressedBet, Consumer<Boolean> listener) {
+    private void addBetToUser(String userUid, CompressedBet compressedBet, Consumer<String> listener) {
         FirebaseUtils.getUsersActiveBets(userUid).get().addOnSuccessListener(documentSnapshot -> {
             List activeBets;
             if (!documentSnapshot.exists() || !documentSnapshot.contains(Constants.FIELD_ACTIVE_BETS)) {
@@ -146,7 +147,7 @@ public class StudentHomeInteractor {
             data.put(Constants.FIELD_ACTIVE_BETS, activeBets);
             FirebaseUtils.getUsersActiveBets(userUid)
                     .set(data, SetOptions.merge())
-                    .addOnSuccessListener(aVoid -> listener.accept(true));
+                    .addOnSuccessListener(aVoid -> listener.accept(compressedBet.getBetUid()));
         });
     }
 
@@ -191,6 +192,15 @@ public class StudentHomeInteractor {
             } else {
                 listener.accept(true);
             }
+        });
+    }
+
+    public void requestAddresses(Consumer<Addresses> listener) {
+        FirebaseUtils.getCurrentUserDocumentReference().get().addOnSuccessListener(documentSnapshot -> {
+            String studentAddress = documentSnapshot.getString(Constants.FIELD_WALLET_ADDRESS);
+            String parentAddress = documentSnapshot.getString(Constants.FIELD_PARENT_ADDRESS);
+            String teacherAddress = documentSnapshot.getString(Constants.FIELD_TEACHER_ADDRESS);
+            listener.accept(new Addresses(studentAddress, parentAddress, teacherAddress));
         });
     }
 }

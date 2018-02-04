@@ -3,12 +3,14 @@ package com.akrama.learn2earn.ethereum;
 import android.content.Context;
 
 import com.akrama.learn2earn.Constants;
+import com.akrama.learn2earn.model.Addresses;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 
 import java.io.File;
@@ -18,6 +20,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.function.Consumer;
+
+import rx.Observable;
 
 /**
  * Created by akrama on 03/02/18.
@@ -68,7 +72,8 @@ public class EthereumInteractor {
         new Thread(() -> {
             try {
                 mCredentials = WalletUtils.loadCredentials(WalletConstants.PASSWORD, credsFile);
-                mContract = Learn2EarnContract.load(CONTRACT_ADDRESS, mWeb3j, mCredentials, Learn2EarnContract.GAS_PRICE, Learn2EarnContract.GAS_LIMIT);
+                mContract = Learn2EarnContract.load(CONTRACT_ADDRESS, mWeb3j, mCredentials,
+                        Learn2EarnContract.GAS_PRICE, Learn2EarnContract.GAS_LIMIT);
                 listener.accept(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -86,6 +91,19 @@ public class EthereumInteractor {
                 e.printStackTrace();
             }
             listener.accept(balance);
+        }).start();
+    }
+
+    public void createBet(Addresses addresses, String betUid, BigInteger betValue, BigInteger betGrade, Consumer<Boolean> listener) {
+        new Thread(() -> {
+            try {
+                mContract.createBet(betUid, betGrade, addresses.getStudent(), addresses.getParent(),
+                        addresses.getTeacher(), betValue).send();
+                listener.accept(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                listener.accept(false);
+            }
         }).start();
     }
 

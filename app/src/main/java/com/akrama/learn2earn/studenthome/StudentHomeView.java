@@ -27,4 +27,5 @@ public interface StudentHomeView {
     void hideActiveBets();
     void showCurrentBalance(String balance);
     void showNoAssignmentsToast();
+    void showBetIsBeingCreatedToast();
 }
