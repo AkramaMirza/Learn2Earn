@@ -5,6 +5,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.akrama.learn2earn.ActiveBetAdapter;
 import com.akrama.learn2earn.BaseActivity;
@@ -15,12 +16,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
 
     @BindView(R.id.active_bets_list_view) RecyclerView mActiveBetsRecyclerView;
     @BindView(R.id.no_bets_view) View mNoBetsView;
-    @BindView(R.id.active_bets_progress_bar) View mActiveBetsProgessBar;
+    @BindView(R.id.active_bets_progress_bar) View mActiveBetsProgressBar;
+    @BindView(R.id.current_balance_text_view) TextView mCurrentBalanceTextView;
+    @BindView(R.id.progress_bar) View mFullScreenProgressBar;
 
     private ParentHomePresenter mPresenter;
     private ActiveBetAdapter mActiveBetAdapter;
@@ -36,7 +40,12 @@ public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mActiveBetsRecyclerView.addItemDecoration(decoration);
         mPresenter = new ParentHomePresenter(this);
-        mPresenter.onCreate();
+        mPresenter.onCreate(getApplicationContext());
+    }
+
+    @OnClick(R.id.update_balance_btn)
+    public void onUpdateBalanceClicked() {
+        mPresenter.onUpdateBalanceClicked();
     }
 
     @Override
@@ -52,12 +61,12 @@ public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
 
     @Override
     public void showProgressBar() {
-        mActiveBetsProgessBar.setVisibility(View.VISIBLE);
+        mActiveBetsProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        mActiveBetsProgessBar.setVisibility(View.GONE);
+        mActiveBetsProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -68,5 +77,20 @@ public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
     @Override
     public void hideNoBetsView() {
         mNoBetsView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showFullScreenProgressBar() {
+        mFullScreenProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideFullScreenProgressBar() {
+        runOnUiThread(() -> mFullScreenProgressBar.setVisibility(View.GONE));
+    }
+
+    @Override
+    public void showCurrentBalance(String balance) {
+        runOnUiThread(() -> mCurrentBalanceTextView.setText(String.format(getString(R.string.home_current_balance), balance)));
     }
 }

@@ -47,7 +47,7 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mActiveBetsRecyclerView.addItemDecoration(decoration);
         mPresenter = new StudentHomePresenter(this);
-        mPresenter.onCreate(this.getApplicationContext());
+        mPresenter.onCreate(getApplicationContext());
     }
 
     @OnClick(R.id.add_parent_btn)

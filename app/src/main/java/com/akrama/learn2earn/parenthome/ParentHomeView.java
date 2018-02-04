@@ -15,4 +15,7 @@ public interface ParentHomeView {
     void hideNoBetsView();
     void showActiveBets(List<CompressedBet> bets);
     void hideActiveBets();
+    void showCurrentBalance(String balance);
+    void showFullScreenProgressBar();
+    void hideFullScreenProgressBar();
 }
