@@ -61,9 +61,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
             android:text="@string/home_update_current_balance"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
+            />
+
+        <Button
+            android:id="@+id/sign_out_btn"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="@string/sign_out"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
             />
 
     </LinearLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.akrama.learn2earn.Constants;
+import com.akrama.learn2earn.FirebaseUtils;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.BaseActivity;
 import com.akrama.learn2earn.R;
@@ -53,6 +54,11 @@ public class TeacherHomeActivity extends BaseActivity implements TeacherHomeView
     @OnClick({R.id.create_assignment_btn, R.id.no_assignments_create_assignment_btn})
     public void onCreateAssignmentClicked() {
         mPresenter.onCreateAssignmentClicked();
+    }
+
+    @OnClick(R.id.sign_out_btn)
+    public void onSignOutClicked() {
+        FirebaseUtils.signOut(this);
     }
 
     @Override

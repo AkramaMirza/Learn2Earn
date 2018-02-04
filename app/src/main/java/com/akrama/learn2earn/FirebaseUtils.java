@@ -1,5 +1,8 @@
 package com.akrama.learn2earn;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -60,5 +63,12 @@ public class FirebaseUtils {
 
     public static CollectionReference getBetsCollection() {
         return FirebaseFirestore.getInstance().collection(Constants.COLLECTION_BETS);
+    }
+
+    public static void signOut(Activity activity) {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }

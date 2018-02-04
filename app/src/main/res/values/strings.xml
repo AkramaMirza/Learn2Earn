@@ -2,6 +2,7 @@
     <string name="app_name">Learn 2 Earn</string>
     <string name="authenticating">Authenticating…</string>
     <string name="auth_fail">Authentication failed, please try again</string>
+    <string name="sign_out">Sign Out</string>
 
     <string name="choose_role_student">Student</string>
     <string name="choose_role_parent">Parent</string>

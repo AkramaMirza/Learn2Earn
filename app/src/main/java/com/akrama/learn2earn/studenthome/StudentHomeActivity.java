@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akrama.learn2earn.FirebaseUtils;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.BaseActivity;
 import com.akrama.learn2earn.model.CompressedBet;
@@ -63,6 +64,11 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @OnClick(R.id.update_balance_btn)
     public void onUpdateBalanceClicked() {
         mPresenter.onUpdateBalanceClicked();
+    }
+
+    @OnClick(R.id.sign_out_btn)
+    public void onSignOutClicked() {
+        FirebaseUtils.signOut(this);
     }
 
     @Override
