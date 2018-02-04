@@ -31,7 +31,7 @@ import rx.Observable;
 public class EthereumInteractor {
 
     private static final String ETHEREUM_NODE_URL = "https://rinkeby.infura.io/99wXx429tmh3S0dsxwwb";
-    private static final String CONTRACT_ADDRESS = "0x113913679A7acC9981F7D1313CbEb9e43dB22A7F";
+    private static final String CONTRACT_ADDRESS = "0x3Bc82aa87dE23483B092211C68028AaD4008EE2B";
 
     private static final EthereumInteractor ourInstance = new EthereumInteractor();
 
