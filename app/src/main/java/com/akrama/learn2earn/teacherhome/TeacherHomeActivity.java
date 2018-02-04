@@ -47,7 +47,7 @@ public class TeacherHomeActivity extends BaseActivity implements TeacherHomeView
         mAssignmentsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         mPresenter = new TeacherHomePresenter(this);
-        mPresenter.onCreate();
+        mPresenter.onCreate(getApplicationContext());
     }
 
     @OnClick({R.id.create_assignment_btn, R.id.no_assignments_create_assignment_btn})
@@ -98,7 +98,7 @@ public class TeacherHomeActivity extends BaseActivity implements TeacherHomeView
 
     @Override
     public void hideFullScreenProgressBar() {
-        mFullScreenProgressBar.setVisibility(View.GONE);
+        runOnUiThread(() -> mFullScreenProgressBar.setVisibility(View.GONE));
     }
 
     @Override

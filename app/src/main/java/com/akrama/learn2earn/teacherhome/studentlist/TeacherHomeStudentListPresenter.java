@@ -2,7 +2,9 @@ package com.akrama.learn2earn.teacherhome.studentlist;
 
 import com.akrama.learn2earn.model.Student;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by akrama on 02/02/18.
@@ -44,10 +46,18 @@ public class TeacherHomeStudentListPresenter {
     }
 
     public void onSubmitGradesClicked(List<Student> students, Integer[] grades) {
-        // TODO: send to ETHEREUM smart contract
         mView.showFullscreenProgressBar();
         mInteractor.deleteAssignment(mAssignmentUid, students, success -> {
+            mInteractor.endBets(generateStudentToGradeMap(students, grades), mAssignmentUid);
             mView.finishActivity();
         });
+    }
+
+    private Map<String, Integer> generateStudentToGradeMap(List<Student> students, Integer[] grades) {
+        Map<String, Integer> studentUidToGrade = new HashMap<>();
+        for (int i = 0; i < students.size(); i++) {
+            studentUidToGrade.put(students.get(i).getStudentUid(), grades[i]);
+        }
+        return studentUidToGrade;
     }
 }

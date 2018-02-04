@@ -1,6 +1,7 @@
 package com.akrama.learn2earn.ethereum;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.akrama.learn2earn.Constants;
 import com.akrama.learn2earn.model.Addresses;
@@ -117,6 +118,10 @@ public class EthereumInteractor {
                 listener.accept(false);
             }
         }).start();
+    }
+
+    public void endBet(String betUid, BigInteger grade) {
+        mContract.endBet(betUid, grade).sendAsync();
     }
 
     // Copied from https://stackoverflow.com/questions/10854211/android-store-inputstream-in-file
