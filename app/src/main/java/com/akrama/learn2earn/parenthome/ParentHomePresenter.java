@@ -3,15 +3,12 @@ package com.akrama.learn2earn.parenthome;
 import android.content.Context;
 
 import com.akrama.learn2earn.Constants;
-import com.akrama.learn2earn.EthereumInteractor;
+import com.akrama.learn2earn.ethereum.EthereumInteractor;
 import com.akrama.learn2earn.model.CompressedBet;
 
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by akrama on 31/01/18.
@@ -35,7 +32,7 @@ public class ParentHomePresenter {
             if (activeBets == null || activeBets.isEmpty()) {
                 mView.showNoBetsView();
             } else {
-                mView.showActiveBets(convertMapListToCompressedBetList(activeBets));
+                mView.showActiveBets(CompressedBet.fromMapListToCompressedBetList(activeBets));
             }
         });
 
@@ -63,14 +60,6 @@ public class ParentHomePresenter {
         mView.hideActiveBets();
     }
 
-    private List<CompressedBet> convertMapListToCompressedBetList(List<Map> mapList) {
-        List<CompressedBet> compressedBets = new ArrayList<>();
-        for (Map map : mapList) {
-            compressedBets.add(CompressedBet.fromMap(map));
-        }
-        return compressedBets;
-    }
-
     public void onUpdateBalanceClicked() {
         mEthereumInteractor.requestCurrentBalance(balance -> {
             if (balance != null) {
@@ -79,6 +68,14 @@ public class ParentHomePresenter {
             } else {
                 // TODO: inform the user that the current balance could not be retrieved
             }
+        });
+    }
+
+    public void onConfirmBetClicked(CompressedBet bet) {
+        mView.showFullScreenProgressBar();
+        bet.setConfirmed(true);
+        mInteractor.updateBet(bet, success -> {
+            mView.hideFullScreenProgressBar();
         });
     }
 }

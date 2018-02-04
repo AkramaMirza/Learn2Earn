@@ -1,4 +1,4 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.ethereum;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class Learn2EarnContract extends Contract {
 
     public RemoteCall<TransactionReceipt> confirmBet(String betUid, BigInteger weiValue) {
         Function function = new Function(
-                "confirmBet", 
+                "updateBet",
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Utf8String(betUid)), 
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function, weiValue);

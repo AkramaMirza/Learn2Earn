@@ -7,10 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.akrama.learn2earn.ActiveBetAdapter;
 import com.akrama.learn2earn.BaseActivity;
-import com.akrama.learn2earn.model.CompressedBet;
 import com.akrama.learn2earn.R;
+import com.akrama.learn2earn.model.CompressedBet;
 
 import java.util.List;
 
@@ -27,14 +26,15 @@ public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
     @BindView(R.id.progress_bar) View mFullScreenProgressBar;
 
     private ParentHomePresenter mPresenter;
-    private ActiveBetAdapter mActiveBetAdapter;
+    private ParentHomeActiveBetAdapter mActiveBetAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_home);
         ButterKnife.bind(this);
-        mActiveBetAdapter = new ActiveBetAdapter(this);
+        mActiveBetAdapter = new ParentHomeActiveBetAdapter(this);
+        mActiveBetAdapter.setOnConfirmClickListener(this::onConfirmBetClicked);
         mActiveBetsRecyclerView.setAdapter(mActiveBetAdapter);
         mActiveBetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -46,6 +46,10 @@ public class ParentHomeActivity extends BaseActivity implements ParentHomeView {
     @OnClick(R.id.update_balance_btn)
     public void onUpdateBalanceClicked() {
         mPresenter.onUpdateBalanceClicked();
+    }
+
+    public void onConfirmBetClicked(CompressedBet bet) {
+        mPresenter.onConfirmBetClicked(bet);
     }
 
     @Override

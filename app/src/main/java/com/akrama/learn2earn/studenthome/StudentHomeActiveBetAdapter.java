@@ -1,4 +1,4 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.studenthome;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.akrama.learn2earn.R;
 import com.akrama.learn2earn.model.CompressedBet;
 
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ import java.util.List;
  * Created by akrama on 27/01/18.
  */
 
-public class ActiveBetAdapter extends RecyclerView.Adapter<ActiveBetAdapter.ViewHolder> {
+public class StudentHomeActiveBetAdapter extends RecyclerView.Adapter<StudentHomeActiveBetAdapter.ViewHolder> {
 
     private List<CompressedBet> mBets = new ArrayList<>();
     private Context mContext;
 
-    public ActiveBetAdapter(Context context) {
+    public StudentHomeActiveBetAdapter(Context context) {
         mContext = context;
     }
 
@@ -36,7 +37,7 @@ public class ActiveBetAdapter extends RecyclerView.Adapter<ActiveBetAdapter.View
         CompressedBet bet = mBets.get(position);
         holder.mAssignmentNameTextView.setText(bet.getAssignmentName());
         holder.mBetValueTextView.setText(String.format("%s ETH", bet.getBetValue()));
-        holder.mGradeTextView.setText(String.format("%s%%", bet.getBetGrade()));
+        holder.mGradeTextView.setText(String.format(mContext.getString(R.string.home_minimum_grade), bet.getBetGrade()));
     }
 
     @Override

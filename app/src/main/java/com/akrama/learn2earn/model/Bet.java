@@ -19,9 +19,10 @@ public class Bet {
     private String assignmentUid;
     private String betValue;
     private Long betGrade;
+    private boolean confirmed;
 
     public Bet(String studentAddress, String parentAddress, String teacherAddress, String assignmentName,
-               String assignmentUid, String betValue, Long betGrade) {
+               String assignmentUid, String betValue, Long betGrade, boolean confirmed) {
         this.studentAddress = studentAddress;
         this.parentAddress = parentAddress;
         this.teacherAddress = teacherAddress;
@@ -29,6 +30,7 @@ public class Bet {
         this.assignmentUid = assignmentUid;
         this.betValue = betValue;
         this.betGrade = betGrade;
+        this.confirmed = confirmed;
     }
 
     @PropertyName(Constants.FIELD_STUDENT_ADDRESS)
@@ -64,5 +66,10 @@ public class Bet {
     @PropertyName(Constants.FIELD_BET_GRADE)
     public Long getBetGrade() {
         return betGrade;
+    }
+
+    @PropertyName(Constants.FIELD_BET_CONFIRMED)
+    public boolean isConfirmed() {
+        return confirmed;
     }
 }

@@ -3,7 +3,7 @@ package com.akrama.learn2earn.studenthome;
 import android.content.Context;
 
 import com.akrama.learn2earn.Constants;
-import com.akrama.learn2earn.EthereumInteractor;
+import com.akrama.learn2earn.ethereum.EthereumInteractor;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.model.CompressedBet;
 

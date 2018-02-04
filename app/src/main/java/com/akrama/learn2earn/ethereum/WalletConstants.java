@@ -1,4 +1,4 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.ethereum;
 
 /**
  * Created by akrama on 03/02/18.

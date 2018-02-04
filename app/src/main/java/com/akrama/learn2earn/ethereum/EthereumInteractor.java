@@ -1,12 +1,13 @@
-package com.akrama.learn2earn;
+package com.akrama.learn2earn.ethereum;
 
 import android.content.Context;
+
+import com.akrama.learn2earn.Constants;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.http.HttpService;
 

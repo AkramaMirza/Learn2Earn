@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.akrama.learn2earn.ActiveBetAdapter;
 import com.akrama.learn2earn.model.Assignment;
 import com.akrama.learn2earn.BaseActivity;
 import com.akrama.learn2earn.model.CompressedBet;
@@ -35,14 +34,14 @@ public class StudentHomeActivity extends BaseActivity implements StudentHomeView
     @BindView(R.id.current_balance_text_view) TextView mCurrentBalanceTextView;
 
     private StudentHomePresenter mPresenter;
-    private ActiveBetAdapter mActiveBetAdapter;
+    private StudentHomeActiveBetAdapter mActiveBetAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
         ButterKnife.bind(this);
-        mActiveBetAdapter = new ActiveBetAdapter(this);
+        mActiveBetAdapter = new StudentHomeActiveBetAdapter(this);
         mActiveBetsRecyclerView.setAdapter(mActiveBetAdapter);
         mActiveBetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);

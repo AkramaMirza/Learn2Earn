@@ -118,13 +118,13 @@ public class StudentHomeInteractor {
             final String teacherAddress = currentUserDocument.getString(Constants.FIELD_TEACHER_ADDRESS);
             final String assignmentName = assignment.getName();
             final String assignmentUid = assignment.getUid();
-            Bet bet = new Bet(studentAddress, parentAddress, teacherAddress, assignmentName, assignmentUid, value, grade);
+            Bet bet = new Bet(studentAddress, parentAddress, teacherAddress, assignmentName, assignmentUid, value, grade, false);
 
             FirebaseUtils.getBetsCollection().add(bet).addOnSuccessListener(betDocument -> {
                 String betUid = betDocument.getId();
                 String studentUid = currentUserDocument.getId();
                 String parentUid = currentUserDocument.getString(Constants.FIELD_PARENT_UID);
-                CompressedBet compressedBet = new CompressedBet(assignmentName, betUid, value, grade);
+                CompressedBet compressedBet = new CompressedBet(assignmentName, betUid, value, grade, false);
                 addBetToUser(studentUid, compressedBet, listener);
                 addBetToUser(parentUid, compressedBet, aVoid -> {});
             });

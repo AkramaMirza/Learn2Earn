@@ -34,8 +34,8 @@ public class Constants {
     public static final String FIELD_STUDENT_ADDRESS = "student_address";
     public static final String FIELD_STUDENTS = "students";
     public static final String FIELD_WALLET_ADDRESS = "wallet_address";
+    public static final String FIELD_BET_CONFIRMED = "bet_confirmed";
 
     public static final String EXTRA_ASSIGNMENT_NAME = "assignment_name";
     public static final String EXTRA_ASSIGNMENT_UID = "assignment_uid";
-
 }
